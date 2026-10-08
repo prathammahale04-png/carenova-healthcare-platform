@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f8fafc;
+    color: #0f172a;
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+  }
+
+  /* Health-tech typography system */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  p {
+    line-height: 1.625;
+    letter-spacing: -0.006em;
+  }
+
+  /* User-requested: Light golden button styling with text-slate-700 readability */
+  .button-primary,
+  .button-secondary,
+  a[class*='btn'] {
+    background-color: #fef3c7;
+    color: #334155;
+    border-color: #fcd34d;
+  }
+
+  .button-primary:hover,
+  .button-secondary:hover,
+  a[class*='btn']:hover {
+    background-color: #fde68a;
+    color: #0f172a;
+  }
+}
+
+/* Custom utility for smooth subtle transitions */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

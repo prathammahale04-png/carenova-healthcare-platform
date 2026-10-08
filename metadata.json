@@ -1,0 +1,6 @@
+{
+  "name": "CareNova - Modern Healthcare Platform",
+  "description": "Discover trusted healthcare specialists, explore personalized clinical services, and seamlessly request appointments through CareNova's modern digital health platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
