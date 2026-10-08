@@ -23,32 +23,6 @@ interface AdminServicesPageProps {
   onNavigate: (page: PageRoute) => void;
 }
 
-const LOCAL_SERVICES_OVERRIDE_KEY = 'carenova_admin_services_overrides';
-
-interface ServicesOverride {
-  added: HealthcareService[];
-  edited: Record<string, Partial<HealthcareService>>;
-  deleted: string[];
-}
-
-const getStoredServiceOverrides = (): ServicesOverride => {
-  try {
-    const raw = localStorage.getItem(LOCAL_SERVICES_OVERRIDE_KEY);
-    if (!raw) return { added: [], edited: {}, deleted: [] };
-    return JSON.parse(raw);
-  } catch {
-    return { added: [], edited: {}, deleted: [] };
-  }
-};
-
-const saveStoredServiceOverrides = (overrides: ServicesOverride): void => {
-  try {
-    localStorage.setItem(LOCAL_SERVICES_OVERRIDE_KEY, JSON.stringify(overrides));
-  } catch (e) {
-    console.warn('LocalStorage error saving service overrides:', e);
-  }
-};
-
 export const AdminServicesPage: React.FC<AdminServicesPageProps> = ({ onNavigate }) => {
   const [services, setServices] = useState<HealthcareService[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -76,56 +50,30 @@ export const AdminServicesPage: React.FC<AdminServicesPageProps> = ({ onNavigate
     else setIsLoading(true);
 
     try {
-      let fetched: HealthcareService[] = [];
-
-      if (isSupabaseConfigured()) {
-        const { data, error } = await supabase
-          .from('services')
-          .select('*')
-          .order('name');
-
-        if (error) {
-          console.warn('[CareNova Admin] Supabase services query note:', error.message);
-          setFetchError(error.message);
-        } else {
-          setFetchError(null);
-          if (data && data.length > 0) {
-            fetched = data.map(normalizeService);
-          }
-        }
+      if (!isSupabaseConfigured()) {
+        setFetchError('Supabase is not configured.');
+        setServices([]);
+        return;
       }
 
-      // Merge with persisted overrides
-      const overrides = getStoredServiceOverrides();
-      let combined = [...fetched];
+      const { data, error } = await supabase
+        .from('services')
+        .select('*')
+        .order('name');
 
-      // 1. Remove deleted
-      if (overrides.deleted && overrides.deleted.length > 0) {
-        combined = combined.filter(s => !overrides.deleted.includes(s.id));
+      if (error) {
+        console.warn('[CareNova Admin] Supabase services query note:', error.message);
+        setFetchError(error.message);
+        setFeedback({ type: 'error', message: `Database error: ${error.message}` });
+        setServices([]);
+      } else {
+        setFetchError(null);
+        const mapped = (data || []).map(normalizeService);
+        setServices(mapped);
       }
-
-      // 2. Apply edits
-      if (overrides.edited) {
-        combined = combined.map(s => {
-          if (overrides.edited[s.id]) {
-            return { ...s, ...overrides.edited[s.id] };
-          }
-          return s;
-        });
-      }
-
-      // 3. Prepend newly added
-      if (overrides.added && overrides.added.length > 0) {
-        for (const addedSrv of overrides.added) {
-          if (!overrides.deleted.includes(addedSrv.id) && !combined.some(c => c.id === addedSrv.id)) {
-            combined.unshift(addedSrv);
-          }
-        }
-      }
-
-      setServices(combined);
     } catch (err: any) {
-      console.error('Error loading services:', err);
+      console.warn('Note loading services:', err?.message || err);
+      setFetchError(err?.message || 'Unable to fetch services from database.');
       setFeedback({ type: 'error', message: 'Unable to fetch services from database.' });
     } finally {
       setIsLoading(false);
@@ -170,99 +118,96 @@ export const AdminServicesPage: React.FC<AdminServicesPageProps> = ({ onNavigate
 
   const handleSaveAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim()) return;
+    if (!formData.name.trim()) {
+      setFeedback({ type: 'error', message: 'Service name is required.' });
+      return;
+    }
 
     setIsSaving(true);
     setFeedback(null);
 
-    const newSrvId = `srv-${Date.now().toString(36)}`;
-    const newServiceObj: HealthcareService = {
-      id: newSrvId,
-      name: formData.name.trim(),
-      slug: formData.name.toLowerCase().replace(/\s+/g, '-'),
-      category: 'Clinical Care',
-      shortDescription: formData.description.trim() || 'Comprehensive clinical care consultation.',
-      fullDescription: formData.description.trim() || 'Comprehensive clinical care consultation.',
-      iconName: formData.icon.trim() || 'Stethoscope',
-      commonConditions: ['General Wellness', 'Clinical Review'],
-      whatToExpect: 'Diagnostic review and personalized consultation plan.',
-      averageDuration: '30 - 45 min',
-      leadSpecialistSpecialty: formData.name.trim()
-    };
-
-    // Attempt remote database insert
-    if (isSupabaseConfigured()) {
-      try {
-        const { error } = await supabase.from('services').insert([{
-          name: formData.name.trim(),
-          description: formData.description.trim(),
-          icon: formData.icon.trim()
-        }]);
-        if (error) {
-          console.warn('[CareNova Admin] Supabase services insert note (RLS):', error.message);
-        }
-      } catch (err) {
-        console.warn('Supabase service insert exception:', err);
-      }
+    if (!isSupabaseConfigured()) {
+      setIsSaving(false);
+      setFeedback({ type: 'error', message: 'Supabase client is not configured.' });
+      return;
     }
 
-    // Persist in overrides
-    const overrides = getStoredServiceOverrides();
-    overrides.added.unshift(newServiceObj);
-    saveStoredServiceOverrides(overrides);
+    try {
+      const { data, error } = await supabase.from('services').insert([{
+        name: formData.name.trim(),
+        description: formData.description.trim(),
+        icon: formData.icon.trim()
+      }]).select();
 
-    setServices(prev => [newServiceObj, ...prev]);
-    setIsAddServiceOpen(false);
-    setIsSaving(false);
-    setFeedback({ type: 'success', message: `Clinical Service "${formData.name}" added successfully.` });
+      if (error) {
+        console.warn('[CareNova Admin] Supabase services insert note:', error.message);
+        setFeedback({ type: 'error', message: `Failed to add service: ${error.message}` });
+      } else {
+        const createdRow = data && data[0] ? normalizeService(data[0]) : null;
+        if (createdRow) {
+          setServices(prev => [createdRow, ...prev]);
+        } else {
+          await loadServices(true);
+        }
+        setIsAddServiceOpen(false);
+        setFormData({ name: '', description: '', icon: 'stethoscope' });
+        setFeedback({ type: 'success', message: `Clinical Service "${formData.name}" added to Supabase public.services successfully.` });
+      }
+    } catch (err: any) {
+      console.warn('Supabase service insert note:', err?.message || err);
+      setFeedback({ type: 'error', message: err?.message || 'Exception adding service to database.' });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleSaveEdit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingService) return;
+    if (!formData.name.trim()) {
+      setFeedback({ type: 'error', message: 'Service name is required.' });
+      return;
+    }
 
     setIsSaving(true);
     setFeedback(null);
 
-    const updatedServiceData: Partial<HealthcareService> = {
-      name: formData.name.trim(),
-      shortDescription: formData.description.trim(),
-      fullDescription: formData.description.trim(),
-      iconName: formData.icon.trim()
-    };
-
-    // Attempt remote database update
-    if (isSupabaseConfigured()) {
-      try {
-        const { error } = await supabase.from('services').update({
-          name: formData.name.trim(),
-          description: formData.description.trim(),
-          icon: formData.icon.trim()
-        }).eq('id', editingService.id);
-
-        if (error) {
-          console.warn('[CareNova Admin] Supabase services update note (RLS):', error.message);
-        }
-      } catch (err) {
-        console.warn('Supabase service update exception:', err);
-      }
+    if (!isSupabaseConfigured()) {
+      setIsSaving(false);
+      setFeedback({ type: 'error', message: 'Supabase client is not configured.' });
+      return;
     }
 
-    // Persist in overrides
-    const overrides = getStoredServiceOverrides();
-    overrides.edited[editingService.id] = {
-      ...overrides.edited[editingService.id],
-      ...updatedServiceData
-    };
-    saveStoredServiceOverrides(overrides);
+    try {
+      const { error } = await supabase.from('services').update({
+        name: formData.name.trim(),
+        description: formData.description.trim(),
+        icon: formData.icon.trim()
+      }).eq('id', editingService.id);
 
-    setServices(prev =>
-      prev.map(s => (s.id === editingService.id ? { ...s, ...updatedServiceData } : s))
-    );
+      if (error) {
+        console.warn('[CareNova Admin] Supabase services update note:', error.message);
+        setFeedback({ type: 'error', message: `Failed to update service: ${error.message}` });
+      } else {
+        const updatedServiceData: Partial<HealthcareService> = {
+          name: formData.name.trim(),
+          shortDescription: formData.description.trim(),
+          fullDescription: formData.description.trim(),
+          iconName: formData.icon.trim()
+        };
 
-    setEditingService(null);
-    setIsSaving(false);
-    setFeedback({ type: 'success', message: `Service "${formData.name}" updated successfully.` });
+        setServices(prev =>
+          prev.map(s => (s.id === editingService.id ? { ...s, ...updatedServiceData } : s))
+        );
+        setEditingService(null);
+        setFeedback({ type: 'success', message: `Service "${formData.name}" updated in Supabase successfully.` });
+      }
+    } catch (err: any) {
+      console.warn('Supabase service update note:', err?.message || err);
+      setFeedback({ type: 'error', message: err?.message || 'Exception updating service.' });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleConfirmDelete = async () => {
@@ -271,35 +216,32 @@ export const AdminServicesPage: React.FC<AdminServicesPageProps> = ({ onNavigate
     setIsSaving(true);
     setFeedback(null);
 
-    // Attempt remote database delete
-    if (isSupabaseConfigured()) {
-      try {
-        const { error } = await supabase
-          .from('services')
-          .delete()
-          .eq('id', deletingService.id);
+    if (!isSupabaseConfigured()) {
+      setIsSaving(false);
+      setFeedback({ type: 'error', message: 'Supabase client is not configured.' });
+      return;
+    }
 
-        if (error) {
-          console.warn('[CareNova Admin] Supabase services delete note (RLS):', error.message);
-        }
-      } catch (err) {
-        console.warn('Supabase service delete exception:', err);
+    try {
+      const { error } = await supabase
+        .from('services')
+        .delete()
+        .eq('id', deletingService.id);
+
+      if (error) {
+        console.warn('[CareNova Admin] Supabase services delete note:', error.message);
+        setFeedback({ type: 'error', message: `Failed to delete service from Supabase: ${error.message}` });
+      } else {
+        setServices(prev => prev.filter(s => s.id !== deletingService.id));
+        setFeedback({ type: 'success', message: `Service "${deletingService.name}" removed from Supabase public.services.` });
+        setDeletingService(null);
       }
+    } catch (err: any) {
+      console.warn('Supabase service delete note:', err?.message || err);
+      setFeedback({ type: 'error', message: err?.message || 'Exception deleting service.' });
+    } finally {
+      setIsSaving(false);
     }
-
-    // Persist in overrides
-    const overrides = getStoredServiceOverrides();
-    if (!overrides.deleted.includes(deletingService.id)) {
-      overrides.deleted.push(deletingService.id);
-    }
-    overrides.added = overrides.added.filter(s => s.id !== deletingService.id);
-    delete overrides.edited[deletingService.id];
-    saveStoredServiceOverrides(overrides);
-
-    setServices(prev => prev.filter(s => s.id !== deletingService.id));
-    setFeedback({ type: 'success', message: `Service "${deletingService.name}" removed.` });
-    setDeletingService(null);
-    setIsSaving(false);
   };
 
   return (

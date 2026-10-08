@@ -30,32 +30,6 @@ interface AdminDoctorsPageProps {
   onNavigate: (page: PageRoute) => void;
 }
 
-const LOCAL_DOCTORS_OVERRIDE_KEY = 'carenova_admin_doctors_overrides';
-
-interface DoctorsOverride {
-  added: Doctor[];
-  edited: Record<string, Partial<Doctor>>;
-  deleted: string[];
-}
-
-const getStoredDoctorOverrides = (): DoctorsOverride => {
-  try {
-    const raw = localStorage.getItem(LOCAL_DOCTORS_OVERRIDE_KEY);
-    if (!raw) return { added: [], edited: {}, deleted: [] };
-    return JSON.parse(raw);
-  } catch {
-    return { added: [], edited: {}, deleted: [] };
-  }
-};
-
-const saveStoredDoctorOverrides = (overrides: DoctorsOverride): void => {
-  try {
-    localStorage.setItem(LOCAL_DOCTORS_OVERRIDE_KEY, JSON.stringify(overrides));
-  } catch (e) {
-    console.warn('LocalStorage error saving doctor overrides:', e);
-  }
-};
-
 export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }) => {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -88,56 +62,29 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
     else setIsLoading(true);
 
     try {
-      let fetched: Doctor[] = [];
-
-      if (isSupabaseConfigured()) {
-        const { data, error } = await supabase
-          .from('doctors')
-          .select('*')
-          .order('name');
-
-        if (error) {
-          console.warn('[CareNova Admin] Supabase doctors query note:', error.message);
-          setFetchError(error.message);
-        } else {
-          setFetchError(null);
-          if (data && data.length > 0) {
-            fetched = data.map(normalizeDoctor);
-          }
-        }
+      if (!isSupabaseConfigured()) {
+        setFetchError('Supabase is not configured.');
+        setDoctors([]);
+        return;
       }
 
-      // Merge with persisted overrides (for seamless persistence across page refreshes)
-      const overrides = getStoredDoctorOverrides();
-      let combined = [...fetched];
+      const { data, error } = await supabase
+        .from('doctors')
+        .select('*')
+        .order('name');
 
-      // 1. Remove deleted
-      if (overrides.deleted && overrides.deleted.length > 0) {
-        combined = combined.filter(d => !overrides.deleted.includes(d.id));
+      if (error) {
+        console.warn('[CareNova Admin] Supabase doctors query note:', error.message);
+        setFetchError(error.message);
+        setFeedback({ type: 'error', message: `Database error: ${error.message}` });
+        setDoctors([]);
+      } else {
+        setFetchError(null);
+        const mapped = (data || []).map(normalizeDoctor);
+        setDoctors(mapped);
       }
-
-      // 2. Apply edits
-      if (overrides.edited) {
-        combined = combined.map(d => {
-          if (overrides.edited[d.id]) {
-            return { ...d, ...overrides.edited[d.id] };
-          }
-          return d;
-        });
-      }
-
-      // 3. Prepend newly added
-      if (overrides.added && overrides.added.length > 0) {
-        for (const addedDoc of overrides.added) {
-          if (!overrides.deleted.includes(addedDoc.id) && !combined.some(c => c.id === addedDoc.id)) {
-            combined.unshift(addedDoc);
-          }
-        }
-      }
-
-      setDoctors(combined);
     } catch (err: any) {
-      console.error('Error loading doctors:', err);
+      console.warn('Note loading doctors:', err?.message || err);
       setFetchError(err?.message || 'Unable to fetch doctors from database.');
       setFeedback({ type: 'error', message: 'Unable to fetch doctors from database.' });
     } finally {
@@ -202,149 +149,145 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
     });
   };
 
-    // Submit Add Doctor
+  // Submit Add Doctor
   const handleSaveAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim()) return;
+    if (!formData.name.trim()) {
+      setFeedback({ type: 'error', message: 'Doctor name is required.' });
+      return;
+    }
+    if (!formData.specialty.trim()) {
+      setFeedback({ type: 'error', message: 'Specialty is required.' });
+      return;
+    }
 
     setIsSaving(true);
     setFeedback(null);
 
     const languagesList = formData.languages.split(',').map(s => s.trim()).filter(Boolean);
-    let assignedDocId = `dr-${Date.now().toString(36)}`;
-    let persistedToSupabase = false;
 
-    // Attempt remote database insert into public.doctors
-    if (isSupabaseConfigured()) {
-      try {
-        const { data, error } = await supabase.from('doctors').insert([{
-          name: formData.name.trim(),
-          specialty: formData.specialty,
-          experience_years: Number(formData.experience_years),
-          rating: Number(formData.rating),
-          image_url: formData.image_url.trim() || null,
-          bio: formData.bio.trim(),
-          languages: languagesList
-        }]).select();
-
-        if (error) {
-          console.warn('[CareNova Admin] Supabase insert note (RLS):', error.message);
-        } else if (data && data[0] && data[0].id) {
-          assignedDocId = String(data[0].id);
-          persistedToSupabase = true;
-        }
-      } catch (err) {
-        console.warn('Supabase doctor insert exception:', err);
-      }
+    if (!isSupabaseConfigured()) {
+      setIsSaving(false);
+      setFeedback({ type: 'error', message: 'Supabase client is not configured.' });
+      return;
     }
 
-    const newDoctorObj: Doctor = {
-      id: assignedDocId,
-      name: formData.name.trim(),
-      title: `Specialist Physician · ${formData.specialty}`,
-      specialty: formData.specialty,
-      specialtyId: formData.specialty.toLowerCase().replace(/\s+/g, '-'),
-      experienceYears: Number(formData.experience_years),
-      rating: Number(formData.rating),
-      reviewCount: 24,
-      image: formData.image_url.trim() || getDoctorImageByName(formData.name.trim()),
-      bio: formData.bio.trim() || 'Attentive specialist physician dedicated to patient health.',
-      education: ['MBBS', 'Board Certification'],
-      certifications: ['State Clinical Board (Prototype Demo)'],
-      areasOfExpertise: [formData.specialty, 'Preventive Clinical Care'],
-      languages: languagesList,
-      consultationFee: 130,
-      nextAvailable: 'Tomorrow · 10:00 AM',
-      availableDays: ['Monday', 'Wednesday', 'Friday'],
-      location: 'CareNova Central Medical Hub',
-      telehealthAvailable: true
-    };
+    try {
+      const { data, error } = await supabase.from('doctors').insert([{
+        name: formData.name.trim(),
+        specialty: formData.specialty,
+        experience_years: Number(formData.experience_years) || 1,
+        rating: Number(formData.rating) || 5.0,
+        image_url: formData.image_url.trim() || null,
+        bio: formData.bio.trim() || '',
+        languages: languagesList
+      }]).select();
 
-    // Persist in overrides (so newly added doctor persists across refreshes)
-    const overrides = getStoredDoctorOverrides();
-    overrides.added = overrides.added.filter(d => d.id !== assignedDocId);
-    overrides.added.unshift(newDoctorObj);
-    saveStoredDoctorOverrides(overrides);
-
-    setDoctors(prev => [newDoctorObj, ...prev.filter(d => d.id !== assignedDocId)]);
-    setIsAddDoctorOpen(false);
-    setIsSaving(false);
-    setFeedback({
-      type: 'success',
-      message: persistedToSupabase
-        ? `Specialist "${formData.name}" added to Supabase public.doctors successfully.`
-        : `Specialist "${formData.name}" added successfully (persisted in admin demo state).`
-    });
+      if (error) {
+        console.warn('[CareNova Admin] Supabase insert note:', error.message);
+        setFeedback({
+          type: 'error',
+          message: `Failed to add doctor to Supabase: ${error.message}`
+        });
+      } else {
+        const createdRow = data && data[0] ? normalizeDoctor(data[0]) : null;
+        if (createdRow) {
+          setDoctors(prev => [createdRow, ...prev]);
+        } else {
+          await loadDoctors(true);
+        }
+        setIsAddDoctorOpen(false);
+        setFormData({
+          name: '',
+          specialty: 'General Medicine',
+          experience_years: 5,
+          rating: 4.8,
+          image_url: '',
+          bio: '',
+          languages: 'English, Hindi'
+        });
+        setFeedback({
+          type: 'success',
+          message: `Specialist "${formData.name}" added to Supabase public.doctors successfully.`
+        });
+      }
+    } catch (err: any) {
+      console.warn('[CareNova Admin] Supabase doctor insert note:', err?.message || err);
+      setFeedback({
+        type: 'error',
+        message: err?.message || 'Network exception while adding doctor to Supabase.'
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   // Submit Edit Doctor
   const handleSaveEdit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingDoctor) return;
+    if (!formData.name.trim()) {
+      setFeedback({ type: 'error', message: 'Doctor name is required.' });
+      return;
+    }
 
     setIsSaving(true);
     setFeedback(null);
 
     const languagesList = formData.languages.split(',').map(s => s.trim()).filter(Boolean);
 
-    const updatedDoctorData: Partial<Doctor> = {
-      name: formData.name.trim(),
-      specialty: formData.specialty,
-      experienceYears: Number(formData.experience_years),
-      rating: Number(formData.rating),
-      bio: formData.bio.trim(),
-      languages: languagesList,
-      image: formData.image_url.trim() || editingDoctor.image || getDoctorImageByName(formData.name.trim())
-    };
-
-    let persistedToSupabase = false;
-    // Attempt remote database update
-    if (isSupabaseConfigured()) {
-      try {
-        const { error } = await supabase.from('doctors').update({
-          name: formData.name.trim(),
-          specialty: formData.specialty,
-          experience_years: Number(formData.experience_years),
-          rating: Number(formData.rating),
-          image_url: formData.image_url.trim() || null,
-          bio: formData.bio.trim(),
-          languages: languagesList
-        }).eq('id', editingDoctor.id);
-
-        if (error) {
-          console.warn('[CareNova Admin] Supabase update note (RLS):', error.message);
-        } else {
-          persistedToSupabase = true;
-        }
-      } catch (err) {
-        console.warn('Supabase doctor update exception:', err);
-      }
+    if (!isSupabaseConfigured()) {
+      setIsSaving(false);
+      setFeedback({ type: 'error', message: 'Supabase client is not configured.' });
+      return;
     }
 
-    // Persist in overrides
-    const overrides = getStoredDoctorOverrides();
-    overrides.edited[editingDoctor.id] = {
-      ...overrides.edited[editingDoctor.id],
-      ...updatedDoctorData
-    };
-    // Also update in added array if this doctor was added in this session
-    overrides.added = overrides.added.map(d =>
-      d.id === editingDoctor.id ? { ...d, ...updatedDoctorData } : d
-    );
-    saveStoredDoctorOverrides(overrides);
+    try {
+      const { error } = await supabase.from('doctors').update({
+        name: formData.name.trim(),
+        specialty: formData.specialty,
+        experience_years: Number(formData.experience_years) || 1,
+        rating: Number(formData.rating) || 5.0,
+        image_url: formData.image_url.trim() || null,
+        bio: formData.bio.trim(),
+        languages: languagesList
+      }).eq('id', editingDoctor.id);
 
-    setDoctors(prev =>
-      prev.map(d => (d.id === editingDoctor.id ? { ...d, ...updatedDoctorData } : d))
-    );
+      if (error) {
+        console.warn('[CareNova Admin] Supabase doctor update note:', error.message);
+        setFeedback({
+          type: 'error',
+          message: `Failed to update doctor: ${error.message}`
+        });
+      } else {
+        const updatedDoctorData: Partial<Doctor> = {
+          name: formData.name.trim(),
+          specialty: formData.specialty,
+          experienceYears: Number(formData.experience_years),
+          rating: Number(formData.rating),
+          bio: formData.bio.trim(),
+          languages: languagesList,
+          image: formData.image_url.trim() || editingDoctor.image || getDoctorImageByName(formData.name.trim())
+        };
 
-    setEditingDoctor(null);
-    setIsSaving(false);
-    setFeedback({
-      type: 'success',
-      message: persistedToSupabase
-        ? `Profile for "${formData.name}" updated in Supabase successfully.`
-        : `Profile for "${formData.name}" updated successfully (persisted across refreshes).`
-    });
+        setDoctors(prev =>
+          prev.map(d => (d.id === editingDoctor.id ? { ...d, ...updatedDoctorData } : d))
+        );
+        setEditingDoctor(null);
+        setFeedback({
+          type: 'success',
+          message: `Profile for "${formData.name}" updated in Supabase successfully.`
+        });
+      }
+    } catch (err: any) {
+      console.warn('[CareNova Admin] Supabase doctor update note:', err?.message || err);
+      setFeedback({
+        type: 'error',
+        message: err?.message || 'Network exception while updating doctor in Supabase.'
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   // Confirm Delete Doctor
@@ -354,43 +297,41 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
     setIsSaving(true);
     setFeedback(null);
 
-    let persistedToSupabase = false;
-    // Attempt remote database delete
-    if (isSupabaseConfigured()) {
-      try {
-        const { error } = await supabase
-          .from('doctors')
-          .delete()
-          .eq('id', deletingDoctor.id);
+    if (!isSupabaseConfigured()) {
+      setIsSaving(false);
+      setFeedback({ type: 'error', message: 'Supabase client is not configured.' });
+      return;
+    }
 
-        if (error) {
-          console.warn('[CareNova Admin] Supabase delete note (RLS):', error.message);
-        } else {
-          persistedToSupabase = true;
-        }
-      } catch (err) {
-        console.warn('Supabase doctor delete exception:', err);
+    try {
+      const { error } = await supabase
+        .from('doctors')
+        .delete()
+        .eq('id', deletingDoctor.id);
+
+      if (error) {
+        console.warn('[CareNova Admin] Supabase doctor delete note:', error.message);
+        setFeedback({
+          type: 'error',
+          message: `Failed to delete doctor from Supabase: ${error.message}`
+        });
+      } else {
+        setDoctors(prev => prev.filter(d => d.id !== deletingDoctor.id));
+        setFeedback({
+          type: 'success',
+          message: `Doctor "${deletingDoctor.name}" removed from Supabase public.doctors.`
+        });
+        setDeletingDoctor(null);
       }
+    } catch (err: any) {
+      console.warn('[CareNova Admin] Supabase doctor delete note:', err?.message || err);
+      setFeedback({
+        type: 'error',
+        message: err?.message || 'Network exception while deleting doctor from Supabase.'
+      });
+    } finally {
+      setIsSaving(false);
     }
-
-    // Persist in overrides
-    const overrides = getStoredDoctorOverrides();
-    if (!overrides.deleted.includes(deletingDoctor.id)) {
-      overrides.deleted.push(deletingDoctor.id);
-    }
-    overrides.added = overrides.added.filter(d => d.id !== deletingDoctor.id);
-    delete overrides.edited[deletingDoctor.id];
-    saveStoredDoctorOverrides(overrides);
-
-    setDoctors(prev => prev.filter(d => d.id !== deletingDoctor.id));
-    setFeedback({
-      type: 'success',
-      message: persistedToSupabase
-        ? `Doctor "${deletingDoctor.name}" removed from Supabase.`
-        : `Doctor "${deletingDoctor.name}" removed from admin list (persisted across refreshes).`
-    });
-    setDeletingDoctor(null);
-    setIsSaving(false);
   };
 
   return (

@@ -38,7 +38,7 @@ export const AdminMessagesPage: React.FC<AdminMessagesPageProps> = ({ onNavigate
       const res = await getAdminMessages();
       setMessages(res.data);
     } catch (err) {
-      console.error('Error loading admin messages:', err);
+      console.warn('Note loading admin messages:', err);
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);

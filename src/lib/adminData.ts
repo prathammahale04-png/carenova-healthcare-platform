@@ -6,51 +6,91 @@ import {
   AdminStats
 } from '../types';
 
-export const INITIAL_DEMO_MESSAGES: ContactMessageRecord[] = [
-  {
-    id: 'msg-01',
-    name: 'Rebecca Torres',
-    email: 'rebecca.torres@example.demo',
-    message: 'Hello, does Dr. Sharma accept private clinical referral letters for second opinion cardiac consultations via telehealth? Looking forward to scheduling.',
-    created_at: '2026-10-07T04:15:00Z',
-    status: 'unread'
-  },
-  {
-    id: 'msg-02',
-    name: 'Thomas Wright',
-    email: 'twright.invest@example.demo',
-    message: 'Inquiring regarding CareNova partner clinics and diagnostic ultrasound availability at the Central Hub. Wonderful prototype interface.',
-    created_at: '2026-10-06T16:20:00Z',
-    status: 'unread'
-  },
-  {
-    id: 'msg-03',
-    name: 'Amira Al-Mansoor',
-    email: 'amira.mansoor@example.demo',
-    message: 'Can I book pediatric consultations for twins in consecutive time slots? Thank you!',
-    created_at: '2026-10-05T12:00:00Z',
-    status: 'read'
+export interface DashboardStatsResult {
+  stats: AdminStats;
+  isFromSupabase: boolean;
+  error?: string | null;
+}
+
+/**
+ * Fetches exact database counts for the Admin Dashboard directly from Supabase tables.
+ * No hardcoded or mock numbers.
+ */
+export const fetchAdminDashboardStats = async (): Promise<DashboardStatsResult> => {
+  if (!isSupabaseConfigured()) {
+    return {
+      stats: {
+        totalAppointments: 0,
+        pendingAppointments: 0,
+        confirmedAppointments: 0,
+        completedAppointments: 0,
+        totalDoctors: 0,
+        totalServices: 0,
+        totalMessages: 0,
+        unreadMessages: 0
+      },
+      isFromSupabase: false,
+      error: 'Supabase is not configured.'
+    };
   }
-];
 
-const LOCAL_MESSAGES_KEY = 'carenova_admin_messages_override';
-
-const getStoredMessages = (): ContactMessageRecord[] => {
   try {
-    const raw = localStorage.getItem(LOCAL_MESSAGES_KEY);
-    if (!raw) return INITIAL_DEMO_MESSAGES;
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : INITIAL_DEMO_MESSAGES;
-  } catch {
-    return INITIAL_DEMO_MESSAGES;
-  }
-};
+    const [
+      allApptsRes,
+      pendingApptsRes,
+      confirmedApptsRes,
+      completedApptsRes,
+      allDoctorsRes,
+      allServicesRes,
+      allMessagesRes
+    ] = await Promise.all([
+      supabase.from('appointments').select('*', { count: 'exact', head: true }),
+      supabase.from('appointments').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+      supabase.from('appointments').select('*', { count: 'exact', head: true }).eq('status', 'confirmed'),
+      supabase.from('appointments').select('*', { count: 'exact', head: true }).eq('status', 'completed'),
+      supabase.from('doctors').select('*', { count: 'exact', head: true }),
+      supabase.from('services').select('*', { count: 'exact', head: true }),
+      supabase.from('contact_messages').select('*', { count: 'exact', head: true })
+    ]);
 
-const saveStoredMessages = (messages: ContactMessageRecord[]): void => {
-  try {
-    localStorage.setItem(LOCAL_MESSAGES_KEY, JSON.stringify(messages));
-  } catch (e) {
-    console.warn('Error saving messages override:', e);
+    const totalAppointments = allApptsRes.count ?? 0;
+    const pendingAppointments = pendingApptsRes.count ?? 0;
+    const confirmedAppointments = confirmedApptsRes.count ?? 0;
+    const completedAppointments = completedApptsRes.count ?? 0;
+    const totalDoctors = allDoctorsRes.count ?? 0;
+    const totalServices = allServicesRes.count ?? 0;
+    const totalMessages = allMessagesRes.count ?? 0;
+
+    return {
+      stats: {
+        totalAppointments,
+        pendingAppointments,
+        confirmedAppointments,
+        completedAppointments,
+        totalDoctors,
+        totalServices,
+        totalMessages,
+        unreadMessages: totalMessages
+      },
+      isFromSupabase: true,
+      error: null
+    };
+  } catch (err: any) {
+    console.warn('[CareNova Admin] Note querying dashboard metrics:', err?.message || err);
+    return {
+      stats: {
+        totalAppointments: 0,
+        pendingAppointments: 0,
+        confirmedAppointments: 0,
+        completedAppointments: 0,
+        totalDoctors: 0,
+        totalServices: 0,
+        totalMessages: 0,
+        unreadMessages: 0
+      },
+      isFromSupabase: false,
+      error: err?.message || 'Failed to fetch dashboard metrics from database.'
+    };
   }
 };
 
@@ -63,12 +103,6 @@ export const getAdminAppointments = async (): Promise<{
   isFromSupabase: boolean;
   error?: string | null;
 }> => {
-  try {
-    localStorage.removeItem('carenova_admin_appointments_override');
-  } catch {
-    // Ignore storage errors
-  }
-
   if (!isSupabaseConfigured()) {
     return {
       data: [],
@@ -96,26 +130,13 @@ export const getAdminAppointments = async (): Promise<{
     }
 
     // 2. Query public.appointments with order('created_at', { ascending: false })
-    let { data, error } = await supabase
+    const { data, error } = await supabase
       .from('appointments')
       .select('*')
       .order('created_at', { ascending: false });
 
-    // Fallback: If ordering by created_at causes error, retry plain select('*')
     if (error) {
-      console.warn('[CareNova Admin] Order by created_at failed, retrying plain select("*"):', error);
-      const retryRes = await supabase
-        .from('appointments')
-        .select('*');
-
-      if (!retryRes.error && retryRes.data) {
-        data = retryRes.data;
-        error = null;
-      }
-    }
-
-    if (error) {
-      console.error('[CareNova Admin] Supabase query error for public.appointments:', error);
+      console.warn('[CareNova Admin] Supabase query note for public.appointments:', error.message);
       return {
         data: [],
         isFromSupabase: false,
@@ -131,18 +152,7 @@ export const getAdminAppointments = async (): Promise<{
       };
     }
 
-    // Sort in memory by created_at descending if available, else appointment_date
-    const sorted = [...data].sort((a: any, b: any) => {
-      if (a.created_at && b.created_at) {
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-      }
-      if (a.appointment_date && b.appointment_date) {
-        return new Date(b.appointment_date).getTime() - new Date(a.appointment_date).getTime();
-      }
-      return 0;
-    });
-
-    const appointments: AppointmentRecord[] = sorted.map((row: any) => {
+    const appointments: AppointmentRecord[] = data.map((row: any) => {
       const docId = row.doctor_id ? String(row.doctor_id) : null;
       const matchedDoctorName = docId ? doctorMap.get(docId) : null;
 
@@ -169,7 +179,7 @@ export const getAdminAppointments = async (): Promise<{
       error: null
     };
   } catch (err: any) {
-    console.error('[CareNova Admin] Unexpected exception querying public.appointments:', err);
+    console.warn('[CareNova Admin] Note querying public.appointments:', err?.message || err);
     return {
       data: [],
       isFromSupabase: false,
@@ -199,7 +209,7 @@ export const updateAppointmentStatus = async (
       console.warn('[CareNova Admin] Note on Supabase update:', error.message);
       return {
         success: false,
-        error: `Supabase update note: ${error.message}`
+        error: `Supabase update error: ${error.message}`
       };
     }
 
@@ -210,20 +220,19 @@ export const updateAppointmentStatus = async (
 };
 
 /**
- * Fetch all contact messages for the Admin Dashboard
+ * Fetch all contact messages directly from Supabase public.contact_messages
+ * Only administrators with RLS access may read these records.
  */
 export const getAdminMessages = async (): Promise<{
   data: ContactMessageRecord[];
   isFromSupabase: boolean;
   error?: string | null;
 }> => {
-  const localList = getStoredMessages();
-
   if (!isSupabaseConfigured()) {
     return {
-      data: localList,
+      data: [],
       isFromSupabase: false,
-      error: null
+      error: 'Supabase client is not configured.'
     };
   }
 
@@ -234,76 +243,95 @@ export const getAdminMessages = async (): Promise<{
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.info('[CareNova Admin] Supabase contact_messages note:', error.message);
+      console.warn('[CareNova Admin] Supabase contact_messages note:', error.message);
       return {
-        data: localList,
+        data: [],
         isFromSupabase: false,
-        error: null
+        error: error.message
       };
     }
 
     if (!data || data.length === 0) {
       return {
-        data: localList,
+        data: [],
         isFromSupabase: true,
         error: null
       };
     }
 
-    const supabaseMessages: ContactMessageRecord[] = data.map((row: any) => ({
+    const messages: ContactMessageRecord[] = data.map((row: any) => ({
       id: String(row.id),
       name: row.name || 'Visitor',
       email: row.email || '',
       message: row.message || '',
       created_at: row.created_at || new Date().toISOString(),
-      status: row.status || 'unread'
+      status: 'unread'
     }));
 
     return {
-      data: supabaseMessages,
+      data: messages,
       isFromSupabase: true,
       error: null
     };
-  } catch (err) {
+  } catch (err: any) {
     return {
-      data: localList,
+      data: [],
       isFromSupabase: false,
-      error: null
+      error: err?.message || 'Network exception while fetching contact messages'
     };
   }
 };
 
 /**
- * Update message status (e.g. mark read/unread)
+ * Update contact message status
  */
-export const updateMessageStatus = (id: string, status: 'unread' | 'read' | 'replied'): void => {
-  const list = getStoredMessages();
-  const updated = list.map(m => m.id === id ? { ...m, status } : m);
-  saveStoredMessages(updated);
+export const updateMessageStatus = async (
+  id: string,
+  newStatus: 'unread' | 'read' | 'replied'
+): Promise<{ success: boolean; error?: string | null }> => {
+  if (!isSupabaseConfigured()) {
+    return { success: false, error: 'Supabase is not configured.' };
+  }
+
+  try {
+    const { error } = await supabase
+      .from('contact_messages')
+      .update({ status: newStatus })
+      .eq('id', id);
+
+    if (error) {
+      console.warn('[CareNova Admin] Note on message status update:', error.message);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Failed to update message status' };
+  }
 };
 
 /**
- * Compute admin dashboard metrics
+ * Delete a contact message from public.contact_messages
  */
-export const computeAdminStats = (
-  appointments: AppointmentRecord[],
-  doctorsCount: number,
-  servicesCount: number,
-  messages: ContactMessageRecord[]
-): AdminStats => {
-  const totalAppointments = appointments.length;
-  const pendingAppointments = appointments.filter(a => a.status === 'pending').length;
-  const confirmedAppointments = appointments.filter(a => a.status === 'confirmed').length;
-  const totalMessages = messages.length;
-  const unreadMessages = messages.filter(m => m.status === 'unread').length;
+export const deleteAdminMessage = async (
+  id: string
+): Promise<{ success: boolean; error?: string | null }> => {
+  if (!isSupabaseConfigured()) {
+    return { success: false, error: 'Supabase is not configured.' };
+  }
 
-  return {
-    totalAppointments,
-    pendingAppointments,
-    confirmedAppointments,
-    totalDoctors: doctorsCount,
-    totalServices: servicesCount,
-    totalMessages,
-    unreadMessages
-  };
+  try {
+    const { error } = await supabase
+      .from('contact_messages')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Failed to delete message' };
+  }
 };

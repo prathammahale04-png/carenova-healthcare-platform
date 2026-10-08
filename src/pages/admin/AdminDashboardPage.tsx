@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { PageRoute, AppointmentRecord, ContactMessageRecord, AdminStats, Doctor, HealthcareService } from '../../types';
+import { PageRoute, AppointmentRecord, ContactMessageRecord, AdminStats } from '../../types';
 import {
+  fetchAdminDashboardStats,
   getAdminAppointments,
   getAdminMessages,
-  computeAdminStats,
   updateAppointmentStatus
 } from '../../lib/adminData';
-import { getDoctors, getServices } from '../../lib/api';
-import { isSupabaseConfigured } from '../../lib/supabase';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { StatCard } from '../../components/admin/StatCard';
 import { StatusBadge } from '../../components/admin/StatusBadge';
@@ -28,8 +26,8 @@ import {
   Phone,
   Mail,
   User,
-  ExternalLink,
-  ShieldAlert
+  ShieldCheck,
+  CheckCheck
 } from 'lucide-react';
 
 interface AdminDashboardPageProps {
@@ -39,12 +37,11 @@ interface AdminDashboardPageProps {
 export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNavigate }) => {
   const [appointments, setAppointments] = useState<AppointmentRecord[]>([]);
   const [messages, setMessages] = useState<ContactMessageRecord[]>([]);
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [services, setServices] = useState<HealthcareService[]>([]);
   const [stats, setStats] = useState<AdminStats>({
     totalAppointments: 0,
     pendingAppointments: 0,
     confirmedAppointments: 0,
+    completedAppointments: 0,
     totalDoctors: 0,
     totalServices: 0,
     totalMessages: 0,
@@ -53,35 +50,32 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
 
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedAppointment, setSelectedAppointment] = useState<AppointmentRecord | null>(null);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
 
   const loadData = async (refresh = false) => {
     if (refresh) setIsRefreshing(true);
     else setIsLoading(true);
+    setErrorMessage(null);
 
     try {
-      const [aptRes, msgRes, docRes, srvRes] = await Promise.all([
+      const [statsRes, aptRes, msgRes] = await Promise.all([
+        fetchAdminDashboardStats(),
         getAdminAppointments(),
-        getAdminMessages(),
-        getDoctors(),
-        getServices()
+        getAdminMessages()
       ]);
+
+      if (statsRes.error && aptRes.error) {
+        setErrorMessage(statsRes.error || aptRes.error || 'Failed to load dashboard data from Supabase.');
+      }
 
       setAppointments(aptRes.data);
       setMessages(msgRes.data);
-      setDoctors(docRes.data);
-      setServices(srvRes.data);
-
-      const calculatedStats = computeAdminStats(
-        aptRes.data,
-        docRes.data.length,
-        srvRes.data.length,
-        msgRes.data
-      );
-      setStats(calculatedStats);
-    } catch (err) {
-      console.error('Error loading admin dashboard data:', err);
+      setStats(statsRes.stats);
+    } catch (err: any) {
+      console.warn('Note loading admin dashboard data:', err);
+      setErrorMessage(err?.message || 'Unexpected exception loading database statistics.');
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -103,11 +97,8 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
     );
     setSelectedAppointment(prev => (prev ? { ...prev, status: newStatus } : null));
 
-    // Recompute stats
-    const updatedApts = appointments.map(a =>
-      a.id === selectedAppointment.id ? { ...a, status: newStatus } : a
-    );
-    setStats(computeAdminStats(updatedApts, doctors.length, services.length, messages));
+    // Reload counts from database
+    loadData(true);
     setIsUpdatingStatus(false);
   };
 
@@ -122,28 +113,35 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
       isRefreshing={isRefreshing}
       counts={{
         pendingAppointments: stats.pendingAppointments,
-        unreadMessages: stats.unreadMessages
+        unreadMessages: stats.totalMessages
       }}
     >
-      {/* Disclaimer Notice */}
-      <div className="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 text-xs text-amber-900 flex items-start gap-3 shadow-2xs">
-        <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
-        <div className="flex-1 space-y-1">
-          <p className="font-bold text-amber-950">
-            CareNova Prototype Admin Operations Notice
-          </p>
-          <p className="text-amber-800 leading-relaxed">
-            This dashboard interfaces with Supabase tables (<code className="bg-amber-100/70 px-1 py-0.5 rounded text-amber-900 font-mono text-2xs">doctors</code>, <code className="bg-amber-100/70 px-1 py-0.5 rounded text-amber-900 font-mono text-2xs">services</code>, <code className="bg-amber-100/70 px-1 py-0.5 rounded text-amber-900 font-mono text-2xs">appointments</code>, <code className="bg-amber-100/70 px-1 py-0.5 rounded text-amber-900 font-mono text-2xs">contact_messages</code>). All clinical records, doctor profiles, and patient queries are fictional portfolio demonstrations.
-          </p>
+      {/* Error Banner */}
+      {errorMessage && (
+        <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 text-xs text-rose-800 flex items-start gap-3 shadow-2xs">
+          <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+          <div className="flex-1 space-y-1">
+            <p className="font-bold text-rose-950">Database Notice</p>
+            <p className="text-rose-700 leading-relaxed font-mono text-2xs">{errorMessage}</p>
+            <p className="text-amber-800 text-2xs pt-1">
+              <strong>Tip for new Supabase project:</strong> Ensure you have executed the migration script <code className="bg-amber-100 px-1 py-0.5 rounded text-amber-900 font-mono">supabase/migrations/001_carenova_backend.sql</code> in your Supabase SQL Editor so all tables and RLS policies are created.
+            </p>
+          </div>
+          <button
+            onClick={() => loadData(true)}
+            className="px-3 py-1 bg-rose-600 text-white rounded-lg text-2xs font-bold hover:bg-rose-700 cursor-pointer"
+          >
+            Retry
+          </button>
         </div>
-      </div>
+      )}
 
       {/* Primary KPI Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3.5">
         <StatCard
           title="Total Appointments"
           value={stats.totalAppointments}
-          subtitle="All patient intake records"
+          subtitle="All database bookings"
           icon={<CalendarCheck2 className="w-5 h-5 text-teal-700" />}
           iconBgColor="bg-teal-50"
           onClick={() => onNavigate('admin-appointments')}
@@ -151,11 +149,27 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
         <StatCard
           title="Pending Review"
           value={stats.pendingAppointments}
-          subtitle="Requires triage/action"
+          subtitle="Awaiting clinical triage"
           icon={<Clock className="w-5 h-5 text-amber-700" />}
           iconBgColor="bg-amber-50"
-          trendText={stats.pendingAppointments > 0 ? `${stats.pendingAppointments} action items` : 'All clear'}
+          trendText={stats.pendingAppointments > 0 ? `${stats.pendingAppointments} pending` : 'All clear'}
           trendType={stats.pendingAppointments > 0 ? 'attention' : 'positive'}
+          onClick={() => onNavigate('admin-appointments')}
+        />
+        <StatCard
+          title="Confirmed"
+          value={stats.confirmedAppointments}
+          subtitle="Scheduled visits"
+          icon={<CheckCircle2 className="w-5 h-5 text-emerald-700" />}
+          iconBgColor="bg-emerald-50"
+          onClick={() => onNavigate('admin-appointments')}
+        />
+        <StatCard
+          title="Completed"
+          value={stats.completedAppointments}
+          subtitle="Concluded consultations"
+          icon={<CheckCheck className="w-5 h-5 text-teal-700" />}
+          iconBgColor="bg-teal-50"
           onClick={() => onNavigate('admin-appointments')}
         />
         <StatCard
@@ -169,19 +183,17 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
         <StatCard
           title="Clinical Services"
           value={stats.totalServices}
-          subtitle="Departments & therapies"
+          subtitle="Departments catalog"
           icon={<Stethoscope className="w-5 h-5 text-indigo-700" />}
           iconBgColor="bg-indigo-50"
           onClick={() => onNavigate('admin-services')}
         />
         <StatCard
-          title="Patient Inquiries"
+          title="Contact Messages"
           value={stats.totalMessages}
-          subtitle={`${stats.unreadMessages} unread messages`}
+          subtitle="Inbound patient inquiries"
           icon={<MessageSquare className="w-5 h-5 text-purple-700" />}
           iconBgColor="bg-purple-50"
-          trendText={stats.unreadMessages > 0 ? `${stats.unreadMessages} new` : 'Caught up'}
-          trendType={stats.unreadMessages > 0 ? 'attention' : 'neutral'}
           onClick={() => onNavigate('admin-messages')}
         />
       </div>

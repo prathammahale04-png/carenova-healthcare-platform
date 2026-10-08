@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageRoute } from '../../types';
-import { adminLogout, getAdminUser } from '../../lib/adminAuth';
+import { adminLogout } from '../../lib/adminAuth';
+import { supabase } from '../../lib/supabase';
 import {
   LayoutDashboard,
   CalendarCheck2,
@@ -32,7 +33,15 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   onCloseMobile,
   counts
 }) => {
-  const adminUser = getAdminUser();
+  const [userEmail, setUserEmail] = useState<string>('admin@carenova');
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data?.user?.email) {
+        setUserEmail(data.user.email);
+      }
+    });
+  }, []);
 
   const navItems: {
     label: string;
@@ -75,8 +84,8 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleLogout = () => {
-    adminLogout();
+  const handleLogout = async () => {
+    await adminLogout();
     onCloseMobile();
     onNavigate('admin-login');
   };
@@ -165,10 +174,10 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-xs font-bold text-white truncate">
-              {adminUser?.name || 'CareNova Admin'}
+              Administrator
             </p>
-            <p className="text-2xs text-slate-400 truncate">
-              {adminUser?.email || 'admin@carenova.demo'}
+            <p className="text-2xs text-slate-400 truncate" title={userEmail}>
+              {userEmail}
             </p>
           </div>
         </div>

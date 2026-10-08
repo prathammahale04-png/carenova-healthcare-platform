@@ -4,8 +4,7 @@ import { createClient } from '@supabase/supabase-js';
  * Sanitizes the Supabase project URL:
  * - Trims whitespace and quotes
  * - Strips trailing slashes
- * - Strips /rest/v1 or /rest/v1/ if user pasted the PostgREST REST endpoint instead of the project root
- *   (which causes PostgREST error PGRST125: "Invalid path specified in request URL")
+ * - Strips /rest/v1 or /rest/v1/ if pasted instead of the project root URL
  */
 export const sanitizeSupabaseUrl = (rawUrl?: string): string => {
   if (!rawUrl) return '';
@@ -24,12 +23,11 @@ export const sanitizeSupabaseKey = (rawKey?: string): string => {
 const rawSupabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const rawSupabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-const supabaseUrl = sanitizeSupabaseUrl(rawSupabaseUrl);
-const supabaseAnonKey = sanitizeSupabaseKey(rawSupabaseAnonKey);
+export const supabaseUrl = sanitizeSupabaseUrl(rawSupabaseUrl);
+export const supabaseAnonKey = sanitizeSupabaseKey(rawSupabaseAnonKey);
 
 /**
- * Returns true if real Supabase credentials have been configured
- * in the environment variables (VITE_SUPABASE_URL & VITE_SUPABASE_ANON_KEY).
+ * Validates the existence and format of required Supabase environment variables.
  */
 export const isSupabaseConfigured = (): boolean => {
   return (
@@ -41,9 +39,26 @@ export const isSupabaseConfigured = (): boolean => {
   );
 };
 
+export const getSupabaseConfigError = (): string | null => {
+  if (!rawSupabaseUrl || !rawSupabaseAnonKey) {
+    return 'Missing Supabase credentials: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY must be defined.';
+  }
+  if (!supabaseUrl.startsWith('https://')) {
+    return 'Invalid Supabase URL: VITE_SUPABASE_URL must be a valid HTTPS URL (e.g. https://xyz.supabase.co).';
+  }
+  return null;
+};
+
+// Immediate development validation notice
+if (!isSupabaseConfigured()) {
+  console.warn(
+    '[CareNova Supabase Configuration Notice]',
+    getSupabaseConfigError() || 'Supabase environment variables are missing or set to placeholder values.'
+  );
+}
+
 /**
- * Standard Supabase client using public/publishable anon key only.
- * Fallbacks to safe placeholder values when environment variables are not yet populated.
+ * Standard reusable Supabase client with persistSession enabled for Auth.
  */
 export const supabase = createClient(
   isSupabaseConfigured() ? supabaseUrl : 'https://placeholder.supabase.co',
@@ -51,7 +66,8 @@ export const supabase = createClient(
   {
     auth: {
       persistSession: true,
-      autoRefreshToken: true
+      autoRefreshToken: true,
+      detectSessionInUrl: true
     },
     db: {
       schema: 'public'

@@ -345,14 +345,7 @@ export const saveAppointment = async (formData: AppointmentFormData): Promise<Sa
     }
 
     if (error) {
-      // Useful developer-facing error log
-      console.error('[CareNova Supabase] Failed to insert appointment into public.appointments:', {
-        message: error.message,
-        details: error.details,
-        hint: error.hint,
-        code: error.code,
-        payloadSent: payload
-      });
+      console.warn('[CareNova Supabase] Appointment insert note:', error.message);
 
       return {
         success: false,
@@ -369,8 +362,7 @@ export const saveAppointment = async (formData: AppointmentFormData): Promise<Sa
       referenceNumber
     };
   } catch (err: any) {
-    // Developer-facing error log
-    console.error('[CareNova Supabase] Network or unexpected exception during appointment insert:', err);
+    console.warn('[CareNova Supabase] Exception during appointment insert:', err?.message || err);
 
     return {
       success: false,

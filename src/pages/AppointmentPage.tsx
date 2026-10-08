@@ -322,7 +322,7 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
       setCurrentStep(4);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err: any) {
-      console.error('[CareNova Appointment] Submission exception:', err);
+      console.warn('[CareNova Appointment] Submission note:', err?.message || err);
       setIsSubmitting(false);
       setSubmissionError('An issue occurred while processing your consultation request. Please check your network and try again.');
     }

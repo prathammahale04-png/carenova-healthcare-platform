@@ -131,7 +131,7 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
 
       // Handle query failure
       if (error) {
-        console.error('[AdminAppointmentsPage] Supabase SELECT query failed with error:', error);
+        console.warn('[AdminAppointmentsPage] Supabase SELECT query note:', error.message);
         setDiagnostic({
           supabaseConnection: isConnected ? 'Connected' : 'Failed',
           queryStatus: 'Error',
@@ -204,7 +204,7 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
       console.info(`[AdminAppointmentsPage] Displaying ${records.length} real Supabase record(s) in appointment table.`);
       setAppointments(records);
     } catch (err: any) {
-      console.error('[AdminAppointmentsPage] Unexpected exception during appointments fetch:', err);
+      console.warn('[AdminAppointmentsPage] Exception during appointments fetch:', err?.message || err);
       setExactErrorObject(err);
       setDiagnostic({
         supabaseConnection: isConnected ? 'Connected' : 'Failed',

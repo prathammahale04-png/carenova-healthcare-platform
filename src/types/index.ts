@@ -16,6 +16,14 @@ export type PageRoute =
 
 export type AppointmentStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled';
 
+export type UserRole = 'user' | 'admin';
+
+export interface Profile {
+  id: string;
+  role: UserRole;
+  created_at?: string;
+}
+
 export interface AppointmentRecord {
   id: string;
   patient_name: string;
@@ -45,6 +53,7 @@ export interface AdminStats {
   totalAppointments: number;
   pendingAppointments: number;
   confirmedAppointments: number;
+  completedAppointments: number;
   totalDoctors: number;
   totalServices: number;
   totalMessages: number;
