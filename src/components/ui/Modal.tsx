@@ -57,21 +57,21 @@ export const Modal: React.FC<ModalProps> = ({
         aria-hidden="true"
       />
       <div
-        className={`relative w-full ${maxWidthClasses[maxWidth]} bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all animate-in zoom-in-95 duration-200`}
+        className={`relative w-full ${maxWidthClasses[maxWidth]} bg-[#FFFDF8] rounded-2xl shadow-2xl border border-[#E7DFCE] overflow-hidden transform transition-all animate-in zoom-in-95 duration-200`}
       >
         {/* Header */}
-        <div className="flex items-start justify-between p-6 pb-4 border-b border-slate-100">
+        <div className="flex items-start justify-between p-6 pb-4 border-b border-[#E7DFCE]">
           <div>
-            <h2 id="modal-title" className="text-xl font-bold text-slate-900 tracking-tight">
+            <h2 id="modal-title" className="text-xl font-bold text-[#202020] tracking-tight">
               {title}
             </h2>
             {description && (
-              <p className="text-sm text-slate-500 mt-1">{description}</p>
+              <p className="text-sm text-[#77736A] mt-1">{description}</p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="p-1.5 text-[#77736A] hover:text-[#202020] hover:bg-[#FBF8EF] rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#D6B36A] cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />

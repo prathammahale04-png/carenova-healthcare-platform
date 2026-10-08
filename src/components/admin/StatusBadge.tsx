@@ -19,27 +19,27 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     case 'pending':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 font-semibold rounded-full bg-amber-50 text-amber-700 border border-amber-200/80 ${sizeClasses} ${className}`}
+          className={`inline-flex items-center gap-1.5 font-semibold rounded-full bg-[#FBF8EF] text-[#8E6D2B] border border-[#E7DFCE] ${sizeClasses} ${className}`}
         >
-          <Clock className="w-3 h-3 text-amber-500 animate-pulse" />
+          <Clock className="w-3 h-3 text-[#D6B36A] animate-pulse" />
           <span>Pending Review</span>
         </span>
       );
     case 'confirmed':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 font-semibold rounded-full bg-teal-50 text-teal-800 border border-teal-200/80 ${sizeClasses} ${className}`}
+          className={`inline-flex items-center gap-1.5 font-semibold rounded-full bg-[#F4E9C9] text-[#8E6D2B] border border-[#E7D19A] ${sizeClasses} ${className}`}
         >
-          <CheckCircle2 className="w-3 h-3 text-teal-600" />
+          <CheckCircle2 className="w-3 h-3 text-[#D6B36A]" />
           <span>Confirmed</span>
         </span>
       );
     case 'completed':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 font-semibold rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 ${sizeClasses} ${className}`}
+          className={`inline-flex items-center gap-1.5 font-semibold rounded-full bg-[#2E7D52]/10 text-[#2E7D52] border border-[#2E7D52]/30 ${sizeClasses} ${className}`}
         >
-          <CheckCheck className="w-3 h-3 text-emerald-600" />
+          <CheckCheck className="w-3 h-3 text-[#2E7D52]" />
           <span>Completed</span>
         </span>
       );
@@ -55,16 +55,16 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     case 'unread':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 font-semibold rounded-full bg-amber-50 text-amber-700 border border-amber-200 ${sizeClasses} ${className}`}
+          className={`inline-flex items-center gap-1.5 font-semibold rounded-full bg-[#F4E9C9]/60 text-[#8E6D2B] border border-[#E7D19A] ${sizeClasses} ${className}`}
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#D6B36A] animate-ping" />
           <span>Unread</span>
         </span>
       );
     case 'read':
       return (
         <span
-          className={`inline-flex items-center gap-1 font-semibold rounded-full bg-slate-100 text-slate-700 border border-slate-200 ${sizeClasses} ${className}`}
+          className={`inline-flex items-center gap-1 font-semibold rounded-full bg-[#FBF8EF] text-[#77736A] border border-[#E7DFCE] ${sizeClasses} ${className}`}
         >
           <span>Reviewed</span>
         </span>
@@ -72,15 +72,15 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     case 'replied':
       return (
         <span
-          className={`inline-flex items-center gap-1 font-semibold rounded-full bg-teal-50 text-teal-800 border border-teal-200 ${sizeClasses} ${className}`}
+          className={`inline-flex items-center gap-1 font-semibold rounded-full bg-[#F4E9C9] text-[#8E6D2B] border border-[#E7D19A] ${sizeClasses} ${className}`}
         >
-          <CheckCheck className="w-3 h-3 text-teal-600" />
+          <CheckCheck className="w-3 h-3 text-[#D6B36A]" />
           <span>Replied</span>
         </span>
       );
     default:
       return (
-        <span className={`inline-flex items-center font-medium rounded-full bg-slate-100 text-slate-700 ${sizeClasses} ${className}`}>
+        <span className={`inline-flex items-center font-medium rounded-full bg-[#FBF8EF] text-[#77736A] border border-[#E7DFCE] ${sizeClasses} ${className}`}>
           {status}
         </span>
       );

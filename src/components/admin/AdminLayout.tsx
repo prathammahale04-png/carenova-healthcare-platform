@@ -26,7 +26,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex text-slate-900 font-sans selection:bg-teal-100 selection:text-teal-900">
+    <div className="min-h-screen bg-[#FBF8EF] flex text-[#202020] font-sans selection:bg-[#F4E9C9] selection:text-[#202020]">
       {/* Left Sidebar */}
       <AdminSidebar
         currentPage={currentPage}

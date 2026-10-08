@@ -20,16 +20,16 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none whitespace-nowrap shrink-0 select-none cursor-pointer';
+  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D6B36A] focus-visible:ring-offset-2 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none whitespace-nowrap shrink-0 select-none cursor-pointer';
 
   const variants = {
-    primary: 'bg-teal-700 text-white hover:bg-teal-800 shadow-xs border border-teal-800/20 active:bg-teal-900',
-    secondary: 'bg-slate-900 text-white hover:bg-slate-800 shadow-xs border border-slate-900 active:bg-slate-950',
-    outline: 'bg-white text-slate-800 border border-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:border-slate-400 shadow-xs active:bg-slate-100',
-    ghost: 'text-slate-700 hover:bg-slate-100 hover:text-slate-900 active:bg-slate-200',
-    white: 'bg-white text-teal-950 hover:bg-slate-100 hover:text-teal-900 border border-white shadow-md active:bg-slate-200',
-    'outline-white': 'bg-transparent text-white border border-white/80 hover:bg-white/10 hover:text-white hover:border-white shadow-xs active:bg-white/20',
-    golden: 'bg-amber-100 text-slate-700 border border-amber-300 hover:bg-amber-200 hover:text-slate-900 shadow-xs active:bg-amber-300'
+    primary: 'button-primary bg-[#D6B36A] text-[#F1F3F5] hover:bg-[#C59E52] hover:text-white border border-[#C59E52]/60 shadow-sm active:bg-[#B68D3F]',
+    secondary: 'button-secondary bg-transparent text-[#8E6D2B] border border-[#D6B36A] hover:bg-[#FBF8EF] hover:text-[#202020] hover:border-[#C59E52] shadow-2xs active:bg-[#F4E9C9]',
+    outline: 'bg-[#FFFDF8] text-[#3A3833] border border-[#E7DFCE] hover:bg-[#FBF8EF] hover:text-[#202020] hover:border-[#D6B36A] shadow-2xs active:bg-[#F4E9C9]',
+    ghost: 'text-[#3A3833] hover:bg-[#FBF8EF] hover:text-[#202020] active:bg-[#F4E9C9]/60',
+    white: 'bg-[#FFFDF8] text-[#202020] hover:bg-white hover:text-[#202020] border border-[#E7DFCE] shadow-sm active:bg-[#FBF8EF]',
+    'outline-white': 'bg-transparent text-[#F1F3F5] border border-[#E7DFCE]/70 hover:bg-white/10 hover:text-white hover:border-[#F1F3F5] shadow-xs active:bg-white/20',
+    golden: 'bg-[#F4E9C9] text-[#5E4A1E] border border-[#E7D19A] hover:bg-[#E7D19A] hover:text-[#202020] shadow-xs active:bg-[#D6B36A]'
   };
 
   const sizes = {

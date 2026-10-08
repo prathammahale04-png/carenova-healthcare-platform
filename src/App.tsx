@@ -148,7 +148,7 @@ export default function App() {
   // If in Admin Section, render admin pages without public header/footer
   if (isAdminRoute) {
     return (
-      <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-teal-100 selection:text-teal-900 font-sans">
+      <div className="min-h-screen bg-[#FBF8EF] text-[#202020] selection:bg-[#F4E9C9] selection:text-[#202020] font-sans">
         {currentPage === 'admin-login' && (
           <AdminLoginPage onNavigate={navigateTo} />
         )}
@@ -178,7 +178,7 @@ export default function App() {
 
   // Public Healthcare Website Layout
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-teal-100 selection:text-teal-900">
+    <div className="min-h-screen flex flex-col bg-[#FFFDF8] text-[#3A3833] selection:bg-[#F4E9C9] selection:text-[#202020]">
       {/* Portfolio Context Banner */}
       <DemoBanner />
 

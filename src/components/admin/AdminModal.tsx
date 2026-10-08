@@ -53,16 +53,16 @@ export const AdminModal: React.FC<AdminModalProps> = ({
 
       <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
-          className={`relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 w-full ${maxWidthClasses} border border-slate-200 animate-in zoom-in-95 duration-200`}
+          className={`relative transform overflow-hidden rounded-2xl bg-[#FFFDF8] text-left shadow-2xl transition-all sm:my-8 w-full ${maxWidthClasses} border border-[#E7DFCE] animate-in zoom-in-95 duration-200`}
         >
           {/* Header */}
-          <div className="flex items-start justify-between border-b border-slate-100 p-5 sm:px-6">
+          <div className="flex items-start justify-between border-b border-[#E7DFCE] p-5 sm:px-6">
             <div>
-              <h3 className="text-lg font-bold text-slate-900">
+              <h3 className="text-lg font-bold text-[#202020]">
                 {title}
               </h3>
               {subtitle && (
-                <p className="mt-0.5 text-xs text-slate-500">
+                <p className="mt-0.5 text-xs text-[#77736A]">
                   {subtitle}
                 </p>
               )}
@@ -70,7 +70,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 cursor-pointer"
+              className="rounded-lg p-1.5 text-[#AEB4BB] hover:bg-[#FBF8EF] hover:text-[#202020] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D6B36A] cursor-pointer"
               aria-label="Close dialog"
             >
               <X className="w-5 h-5" />

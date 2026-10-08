@@ -379,15 +379,15 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
       />
 
       {/* 4-STEP PROGRESS INDICATOR */}
-      <div className="mb-8 p-3 sm:p-4 bg-white rounded-2xl border border-slate-200/90 shadow-2xs">
+      <div className="mb-8 p-3 sm:p-4 bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] shadow-2xs">
         
         {/* Mobile Stepper (<640px) */}
         <div className="sm:hidden space-y-2.5">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-bold text-slate-900">
+            <span className="font-bold text-[#202020]">
               Step {stepsConfig[currentStep - 1].number} of 04 · {stepsConfig[currentStep - 1].title}
             </span>
-            <span className="text-2xs font-semibold px-2 py-0.5 rounded bg-teal-50 text-teal-800">
+            <span className="text-2xs font-semibold px-2 py-0.5 rounded bg-[#F4E9C9] text-[#8E6D2B]">
               {Math.round((currentStep / 4) * 100)}%
             </span>
           </div>
@@ -399,10 +399,10 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                 key={stepNum}
                 className={`rounded-full transition-all duration-300 ${
                   currentStep > stepNum
-                    ? 'bg-emerald-500'
+                    ? 'bg-[#2E7D52]'
                     : currentStep === stepNum
-                    ? 'bg-teal-700'
-                    : 'bg-slate-200'
+                    ? 'bg-[#D6B36A]'
+                    : 'bg-[#E7DFCE]'
                 }`}
               />
             ))}
@@ -424,14 +424,14 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                   }}
                   className={`flex-1 py-1 px-1.5 rounded-lg text-2xs font-semibold flex items-center justify-center gap-1 transition-all ${
                     isCurrent
-                      ? 'bg-teal-700 text-white shadow-2xs font-bold'
+                      ? 'bg-[#D6B36A] text-[#F1F3F5] shadow-2xs font-bold'
                       : isPassed
-                      ? 'bg-teal-50 text-teal-800 hover:bg-teal-100 cursor-pointer'
-                      : 'bg-slate-50 text-slate-400 cursor-default'
+                      ? 'bg-[#F4E9C9]/70 text-[#8E6D2B] hover:bg-[#F4E9C9] cursor-pointer'
+                      : 'bg-[#FBF8EF] text-[#77736A] cursor-default'
                   }`}
                 >
                   {isPassed ? (
-                    <Check className="w-3 h-3 text-emerald-600" />
+                    <Check className="w-3 h-3 text-[#2E7D52]" />
                   ) : (
                     <span>{s.number}</span>
                   )}
@@ -460,30 +460,30 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                 }}
                 className={`p-3 rounded-xl border transition-all flex items-center gap-2.5 ${
                   isCurrent
-                    ? 'border-teal-700 bg-teal-50/70 text-teal-950 ring-1 ring-teal-700 shadow-2xs'
+                    ? 'border-[#D6B36A] bg-[#F4E9C9]/50 text-[#202020] ring-1 ring-[#D6B36A] shadow-2xs'
                     : isPassed
-                    ? 'border-emerald-200 bg-emerald-50/40 text-emerald-950 hover:bg-emerald-50 cursor-pointer'
-                    : 'border-slate-200 bg-slate-50/50 text-slate-400 cursor-default'
+                    ? 'border-[#2E7D52]/30 bg-[#2E7D52]/10 text-[#2E7D52] hover:bg-[#2E7D52]/15 cursor-pointer'
+                    : 'border-[#E7DFCE] bg-[#FBF8EF] text-[#77736A] cursor-default'
                 }`}
               >
                 <div
                   className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 transition-colors ${
                     isCurrent
-                      ? 'bg-teal-700 text-white'
+                      ? 'bg-[#D6B36A] text-[#F1F3F5]'
                       : isPassed
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-slate-200 text-slate-500'
+                      ? 'bg-[#2E7D52] text-white'
+                      : 'bg-[#E7DFCE] text-[#77736A]'
                   }`}
                 >
                   {isPassed ? <Check className="w-3.5 h-3.5" /> : s.number}
                 </div>
                 <div className="min-w-0">
                   <div className={`text-2xs font-semibold uppercase tracking-wider ${
-                    isCurrent ? 'text-teal-700' : isPassed ? 'text-emerald-700' : 'text-slate-400'
+                    isCurrent ? 'text-[#8E6D2B]' : isPassed ? 'text-[#2E7D52]' : 'text-[#77736A]'
                   }`}>
                     {s.number}
                   </div>
-                  <div className="font-bold truncate text-slate-900 text-xs">
+                  <div className="font-bold truncate text-[#202020] text-xs">
                     {s.title}
                   </div>
                 </div>
@@ -496,44 +496,44 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
 
       {/* STEP 4: CONFIRMATION VIEW */}
       {currentStep === 4 && confirmation && (
-        <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-10 shadow-lg relative overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+        <div className="bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] p-6 sm:p-10 shadow-lg relative overflow-hidden animate-in fade-in zoom-in-95 duration-300">
           
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+            <div className="w-14 h-14 rounded-2xl bg-[#2E7D52]/10 border border-[#2E7D52]/20 flex items-center justify-center text-[#2E7D52] shrink-0">
               <CheckCircle2 className="w-8 h-8" />
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-2xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
+                <span className="text-2xs font-bold uppercase tracking-wider text-[#2E7D52] bg-[#2E7D52]/10 px-2 py-0.5 rounded">
                   SIMULATION SUCCESSFUL
                 </span>
                 {confirmation.isInsertedToSupabase ? (
-                  <span className="text-2xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded flex items-center gap-1">
-                    <Database className="w-3 h-3 text-emerald-600" />
+                  <span className="text-2xs font-semibold text-[#2E7D52] bg-[#2E7D52]/10 border border-[#2E7D52]/30 px-2 py-0.5 rounded flex items-center gap-1">
+                    <Database className="w-3 h-3 text-[#2E7D52]" />
                     Inserted into public.appointments
                   </span>
                 ) : (
-                  <span className="text-2xs font-semibold text-slate-600 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded flex items-center gap-1">
-                    <Database className="w-3 h-3 text-slate-500" />
+                  <span className="text-2xs font-semibold text-[#77736A] bg-[#FBF8EF] border border-[#E7DFCE] px-2 py-0.5 rounded flex items-center gap-1">
+                    <Database className="w-3 h-3 text-[#77736A]" />
                     Local Prototype Session Mode
                   </span>
                 )}
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-[#202020] tracking-tight mt-1">
                 Appointment Request Received
               </h1>
               <div className="flex flex-wrap items-center gap-2 mt-1">
-                <span className="text-xs text-slate-500">
-                  Reference ID: <strong className="font-mono text-slate-900 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">{confirmation.referenceNumber}</strong>
+                <span className="text-xs text-[#77736A]">
+                  Reference ID: <strong className="font-mono text-[#202020] bg-[#FBF8EF] px-2 py-0.5 rounded border border-[#E7DFCE]">{confirmation.referenceNumber}</strong>
                 </span>
                 <button
                   type="button"
                   onClick={handleCopyId}
-                  className="text-xs font-semibold text-teal-800 hover:text-teal-950 px-2 py-0.5 rounded bg-teal-50 hover:bg-teal-100 transition-colors cursor-pointer flex items-center gap-1"
+                  className="text-xs font-semibold text-[#8E6D2B] hover:text-[#202020] px-2 py-0.5 rounded bg-[#F4E9C9]/60 hover:bg-[#F4E9C9] transition-colors cursor-pointer flex items-center gap-1"
                 >
                   {copiedId ? (
                     <>
-                      <Check className="w-3 h-3 text-emerald-600" />
+                      <Check className="w-3 h-3 text-[#2E7D52]" />
                       <span>Copied!</span>
                     </>
                   ) : (
@@ -543,31 +543,31 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                     </>
                   )}
                 </button>
-                <span className="text-slate-300">·</span>
-                <span className="text-xs text-slate-500">Submitted: {confirmation.submittedAt}</span>
+                <span className="text-[#AEB4BB]">·</span>
+                <span className="text-xs text-[#77736A]">Submitted: {confirmation.submittedAt}</span>
               </div>
             </div>
           </div>
 
           {/* Portfolio Demo Notice Banner */}
-          <div className="bg-amber-50/80 border border-amber-200/80 rounded-xl p-4 text-xs text-amber-900 mb-8 flex items-start gap-3">
-            <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div className="bg-[#FBF8EF] border border-[#E7DFCE] rounded-xl p-4 text-xs text-[#3A3833] mb-8 flex items-start gap-3">
+            <AlertCircle className="w-4 h-4 text-[#D6B36A] shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <p className="font-bold">Portfolio Demonstration Notice</p>
-              <p className="leading-relaxed">
+              <p className="font-bold text-[#202020]">Portfolio Demonstration Notice</p>
+              <p className="leading-relaxed text-[#77736A]">
                 This is a CareNova digital prototype. No actual clinical consultation has been booked, and no patient data has been transmitted. This screen demonstrates complete multi-step state management, form validation, and transactional confirmation patterns.
               </p>
             </div>
           </div>
 
           {/* Consultation Summary Grid */}
-          <div className="bg-slate-50 rounded-xl p-6 border border-slate-100 space-y-4">
+          <div className="bg-[#FBF8EF] rounded-xl p-6 border border-[#E7DFCE] space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-[#3A3833]">
                 Consultation Details Summary
               </h2>
               {calendarSaved && (
-                <span className="text-2xs font-bold text-teal-800 bg-teal-100/70 px-2 py-0.5 rounded animate-pulse">
+                <span className="text-2xs font-bold text-[#8E6D2B] bg-[#F4E9C9] px-2 py-0.5 rounded animate-pulse">
                   Calendar Event Added!
                 </span>
               )}
@@ -575,28 +575,28 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div>
-                <span className="text-slate-500 block mb-0.5">Assigned Specialist:</span>
-                <span className="font-bold text-slate-900 text-sm">{confirmation.doctorName}</span>
-                <span className="text-slate-600 block">{confirmation.specialtyName}</span>
+                <span className="text-[#77736A] block mb-0.5">Assigned Specialist:</span>
+                <span className="font-bold text-[#202020] text-sm">{confirmation.doctorName}</span>
+                <span className="text-[#77736A] block">{confirmation.specialtyName}</span>
               </div>
 
               <div>
-                <span className="text-slate-500 block mb-0.5">Date & Slot:</span>
-                <span className="font-bold text-slate-900 text-sm">{confirmation.date}</span>
-                <span className="text-slate-700 block font-medium">{confirmation.timeSlot}</span>
+                <span className="text-[#77736A] block mb-0.5">Date & Slot:</span>
+                <span className="font-bold text-[#202020] text-sm">{confirmation.date}</span>
+                <span className="text-[#3A3833] block font-medium">{confirmation.timeSlot}</span>
               </div>
 
               <div>
-                <span className="text-slate-500 block mb-0.5">Format:</span>
-                <span className="font-semibold text-slate-800 capitalize flex items-center gap-1.5">
+                <span className="text-[#77736A] block mb-0.5">Format:</span>
+                <span className="font-semibold text-[#3A3833] capitalize flex items-center gap-1.5">
                   {confirmation.consultationType === 'in-clinic' ? (
                     <>
-                      <Building className="w-3.5 h-3.5 text-teal-700" />
+                      <Building className="w-3.5 h-3.5 text-[#D6B36A]" />
                       <span>In-Clinic Consultation</span>
                     </>
                   ) : (
                     <>
-                      <Video className="w-3.5 h-3.5 text-teal-700" />
+                      <Video className="w-3.5 h-3.5 text-[#D6B36A]" />
                       <span>Secure Telehealth Video</span>
                     </>
                   )}
@@ -604,23 +604,23 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
               </div>
 
               <div>
-                <span className="text-slate-500 block mb-0.5">Patient Information:</span>
-                <span className="font-semibold text-slate-900">{confirmation.fullName}</span>
-                <span className="text-slate-600 block truncate">{confirmation.email} · {confirmation.phone}</span>
+                <span className="text-[#77736A] block mb-0.5">Patient Information:</span>
+                <span className="font-semibold text-[#202020]">{confirmation.fullName}</span>
+                <span className="text-[#77736A] block truncate">{confirmation.email} · {confirmation.phone}</span>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-slate-200/60 text-xs">
-              <span className="text-slate-500 block mb-1">Reason for Consultation:</span>
-              <p className="text-slate-700 italic bg-white p-3 rounded-lg border border-slate-200/60">
+            <div className="pt-3 border-t border-[#E7DFCE] text-xs">
+              <span className="text-[#77736A] block mb-1">Reason for Consultation:</span>
+              <p className="text-[#3A3833] italic bg-[#FFFDF8] p-3 rounded-lg border border-[#E7DFCE]">
                 "{confirmation.reasonForVisit}"
               </p>
             </div>
 
             {confirmation.notes && (
               <div className="pt-2 text-xs">
-                <span className="text-slate-500 block mb-1">Additional Patient Notes:</span>
-                <p className="text-slate-600 bg-white p-2.5 rounded-lg border border-slate-200/60">
+                <span className="text-[#77736A] block mb-1">Additional Patient Notes:</span>
+                <p className="text-[#77736A] bg-[#FFFDF8] p-2.5 rounded-lg border border-[#E7DFCE]">
                   {confirmation.notes}
                 </p>
               </div>
@@ -628,23 +628,21 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
           </div>
 
           {/* Action CTAs */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-100">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#E7DFCE]">
             <div className="flex items-center gap-2.5 w-full sm:w-auto">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="md"
-                leftIcon={<Printer className="w-4 h-4 text-slate-700" />}
+                leftIcon={<Printer className="w-4 h-4" />}
                 onClick={() => window.print()}
-                className="flex-1 sm:flex-initial !bg-amber-100 !text-slate-700 !border-amber-300 hover:!bg-amber-200 hover:!text-slate-900 shadow-xs font-semibold transition-all cursor-pointer"
               >
                 Print Summary
               </Button>
               <Button
-                variant="outline"
+                variant="secondary"
                 size="md"
-                leftIcon={<CalendarCheck2 className="w-4 h-4 text-slate-700" />}
+                leftIcon={<CalendarCheck2 className="w-4 h-4" />}
                 onClick={handleAddToCalendar}
-                className="flex-1 sm:flex-initial !bg-amber-100 !text-slate-700 !border-amber-300 hover:!bg-amber-200 hover:!text-slate-900 shadow-xs font-semibold transition-all cursor-pointer"
               >
                 Add to Calendar
               </Button>
@@ -652,10 +650,9 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
 
             <div className="flex items-center gap-2.5 w-full sm:w-auto">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="md"
                 onClick={handleReset}
-                className="flex-1 sm:flex-initial !bg-amber-100 !text-slate-700 !border-amber-300 hover:!bg-amber-200 hover:!text-slate-900 shadow-xs font-bold transition-all cursor-pointer"
               >
                 Book Another Demo
               </Button>
@@ -663,7 +660,6 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                 variant="primary"
                 size="md"
                 onClick={() => onNavigate('doctors')}
-                className="flex-1 sm:flex-initial !bg-amber-100 !text-slate-700 !border-amber-300 hover:!bg-amber-200 hover:!text-slate-900 shadow-xs font-bold transition-all cursor-pointer"
               >
                 View Doctors Directory
               </Button>
@@ -675,17 +671,17 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
 
       {/* FORM WORKFLOW: STEPS 1, 2, 3 */}
       {currentStep !== 4 && (
-        <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] p-6 sm:p-8 shadow-xs space-y-6">
           
           {/* Active Loading Phase Banner */}
           {isSubmitting && (
-            <div className="p-4 bg-teal-50 border border-teal-200 rounded-xl flex items-center gap-3 animate-in fade-in duration-200">
-              <Loader2 className="w-5 h-5 text-teal-700 animate-spin shrink-0" />
+            <div className="p-4 bg-[#F4E9C9]/50 border border-[#E7D19A] rounded-xl flex items-center gap-3 animate-in fade-in duration-200">
+              <Loader2 className="w-5 h-5 text-[#D6B36A] animate-spin shrink-0" />
               <div>
-                <div className="text-xs font-bold text-teal-950">
+                <div className="text-xs font-bold text-[#202020]">
                   {submitPhase}
                 </div>
-                <div className="text-2xs text-teal-700 mt-0.5">
+                <div className="text-2xs text-[#8E6D2B] mt-0.5">
                   Simulating production transaction flow...
                 </div>
               </div>
@@ -694,10 +690,10 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
 
           {/* Submission Error Banner */}
           {submissionError && (
-            <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-3 text-xs text-rose-800 animate-in fade-in duration-200">
-              <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+            <div className="p-4 bg-[#C24141]/10 border border-[#C24141]/30 rounded-xl flex items-start gap-3 text-xs text-[#C24141] animate-in fade-in duration-200">
+              <AlertCircle className="w-5 h-5 text-[#C24141] shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <strong className="font-bold block">Simulation Error Encountered:</strong>
+                <strong className="font-bold block text-[#202020]">Simulation Error Encountered:</strong>
                 <p>{submissionError}</p>
                 <button
                   type="button"
@@ -705,7 +701,7 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                     setSubmissionError(null);
                     setSimulateError(false);
                   }}
-                  className="font-semibold text-rose-900 underline underline-offset-2 mt-1 cursor-pointer"
+                  className="font-semibold text-[#8E6D2B] underline underline-offset-2 mt-1 cursor-pointer"
                 >
                   Dismiss error and switch to normal booking mode
                 </button>
@@ -715,11 +711,11 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
 
           {/* Inline Validation Summary */}
           {Object.keys(errors).length > 0 && !isSubmitting && (
-            <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-2.5 text-xs text-rose-800 animate-in fade-in duration-200">
-              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+            <div className="p-4 bg-[#C24141]/10 border border-[#C24141]/30 rounded-xl flex items-start gap-2.5 text-xs text-[#C24141] animate-in fade-in duration-200">
+              <AlertCircle className="w-4 h-4 text-[#C24141] shrink-0 mt-0.5" />
               <div>
-                <strong className="font-bold block">Please complete required fields:</strong>
-                <ul className="list-disc list-inside mt-1 space-y-0.5 text-rose-700">
+                <strong className="font-bold block text-[#202020]">Please complete required fields:</strong>
+                <ul className="list-disc list-inside mt-1 space-y-0.5 text-[#C24141]">
                   {Object.values(errors).map((err, idx) => (
                     <li key={idx}>{err}</li>
                   ))}
@@ -734,24 +730,24 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
           {currentStep === 1 && (
             <div className="space-y-6 animate-in fade-in duration-200">
               
-              <div className="border-b border-slate-100 pb-4">
-                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                  <User className="w-5 h-5 text-teal-700" />
+              <div className="border-b border-[#E7DFCE] pb-4">
+                <h2 className="text-lg font-bold text-[#202020] flex items-center gap-2">
+                  <User className="w-5 h-5 text-[#D6B36A]" />
                   <span>01. Patient Details & Intake</span>
                 </h2>
-                <p className="text-xs text-slate-600 mt-1">
+                <p className="text-xs text-[#77736A] mt-1">
                   Please provide the patient’s contact details and consultation reason. Information remains simulated within this browser session.
                 </p>
               </div>
 
               {/* Selected doctor prefill badge if navigated from doctor profile */}
               {selectedDoctor && (
-                <div className="p-3 bg-teal-50/60 rounded-xl border border-teal-100 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2 text-teal-900">
-                    <Sparkles className="w-4 h-4 text-teal-700 shrink-0" />
+                <div className="p-3 bg-[#F4E9C9]/50 rounded-xl border border-[#E7D19A] flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2 text-[#202020]">
+                    <Sparkles className="w-4 h-4 text-[#D6B36A] shrink-0" />
                     <span>Selected Specialist: <strong>{selectedDoctor.name}</strong> ({formData.specialty})</span>
                   </div>
-                  <span className="text-2xs text-teal-700 font-medium hidden sm:inline">
+                  <span className="text-2xs text-[#8E6D2B] font-medium hidden sm:inline">
                     Configurable in Step 2
                   </span>
                 </div>
@@ -857,12 +853,12 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
           {currentStep === 2 && (
             <div className="space-y-6 animate-in fade-in duration-200">
               
-              <div className="border-b border-slate-100 pb-4">
-                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-teal-700" />
+              <div className="border-b border-[#E7DFCE] pb-4">
+                <h2 className="text-lg font-bold text-[#202020] flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-[#D6B36A]" />
                   <span>02. Select Specialty, Physician & Schedule</span>
                 </h2>
-                <p className="text-xs text-slate-600 mt-1">
+                <p className="text-xs text-[#77736A] mt-1">
                   Choose your clinical specialty, preferred doctor, consultation mode, and open time slot.
                 </p>
               </div>
@@ -870,7 +866,7 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
               {/* Specialty & Doctor Selection */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                  <label className="block text-xs font-semibold text-[#3A3833] mb-1.5">
                     Healthcare Specialty *
                   </label>
                   <Select
@@ -885,7 +881,7 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                  <label className="block text-xs font-semibold text-[#3A3833] mb-1.5">
                     Select Specialist Physician *
                   </label>
                   {specialtyDoctors.length > 0 ? (
@@ -901,31 +897,31 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                             }}
                             className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
                               isSelected
-                                ? 'border-teal-700 bg-teal-50/70 ring-1 ring-teal-700 shadow-2xs'
-                                : 'border-slate-200 hover:border-slate-300 bg-white'
+                                ? 'border-[#D6B36A] bg-[#FBF8EF] ring-1 ring-[#D6B36A] shadow-2xs'
+                                : 'border-[#E7DFCE] hover:border-[#D6B36A]/60 bg-[#FFFDF8]'
                             }`}
                           >
                             <img
                               src={doc.image}
                               alt={doc.name}
                               referrerPolicy="no-referrer"
-                              className="w-12 h-12 rounded-lg object-cover shrink-0 border border-slate-100"
+                              className="w-12 h-12 rounded-lg object-cover shrink-0 border border-[#E7DFCE]"
                             />
                             <div className="min-w-0 flex-1">
-                              <h4 className="font-bold text-xs text-slate-900 truncate">
+                              <h4 className="font-bold text-xs text-[#202020] truncate">
                                 {doc.name}
                               </h4>
-                              <p className="text-2xs text-slate-500 truncate">
+                              <p className="text-2xs text-[#77736A] truncate">
                                 {doc.title.split('·')[0]}
                               </p>
-                              <div className="flex items-center gap-2 mt-1 text-2xs text-teal-800 font-semibold">
+                              <div className="flex items-center gap-2 mt-1 text-2xs text-[#8E6D2B] font-semibold">
                                 <span>${doc.consultationFee} fee</span>
                                 <span>·</span>
-                                <span className="text-emerald-700 truncate">{doc.nextAvailable}</span>
+                                <span className="text-[#2E7D52] truncate">{doc.nextAvailable}</span>
                               </div>
                             </div>
                             <div className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
-                              isSelected ? 'border-teal-700 bg-teal-700 text-white' : 'border-slate-300'
+                              isSelected ? 'border-[#D6B36A] bg-[#D6B36A] text-[#F1F3F5]' : 'border-[#E7DFCE]'
                             }`}>
                               {isSelected && <Check className="w-2.5 h-2.5" />}
                             </div>
@@ -934,7 +930,7 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                       })}
                     </div>
                   ) : (
-                    <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600">
+                    <div className="p-4 bg-[#FBF8EF] border border-[#E7DFCE] rounded-xl text-xs text-[#77736A]">
                       No specific specialists registered for this category demo. Falling back to primary care.
                     </div>
                   )}
@@ -945,7 +941,7 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
 
                 {/* Consultation Format: In-Clinic vs Telehealth */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                  <label className="block text-xs font-semibold text-[#3A3833] mb-1.5">
                     Consultation Format *
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -954,16 +950,16 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                       onClick={() => setFormData({ ...formData, consultationType: 'in-clinic' })}
                       className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer flex items-start gap-3 ${
                         formData.consultationType === 'in-clinic'
-                          ? 'border-teal-700 bg-teal-50/70 ring-1 ring-teal-700 shadow-2xs'
-                          : 'border-slate-200 bg-white hover:bg-slate-50'
+                          ? 'border-[#D6B36A] bg-[#FBF8EF] ring-1 ring-[#D6B36A] shadow-2xs'
+                          : 'border-[#E7DFCE] bg-[#FFFDF8] hover:bg-[#FBF8EF]'
                       }`}
                     >
-                      <div className="w-8 h-8 rounded-lg bg-teal-100/70 text-teal-800 flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-8 h-8 rounded-lg bg-[#F4E9C9] text-[#8E6D2B] flex items-center justify-center shrink-0 mt-0.5">
                         <Building className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="font-bold text-xs text-slate-900">In-Clinic Consultation</div>
-                        <div className="text-2xs text-slate-500 mt-0.5">
+                        <div className="font-bold text-xs text-[#202020]">In-Clinic Consultation</div>
+                        <div className="text-2xs text-[#77736A] mt-0.5">
                           CareNova Central Medical Hub (Suite 402)
                         </div>
                       </div>
@@ -975,18 +971,18 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                       onClick={() => setFormData({ ...formData, consultationType: 'telehealth' })}
                       className={`p-3.5 rounded-xl border text-left transition-all flex items-start gap-3 ${
                         formData.consultationType === 'telehealth'
-                          ? 'border-teal-700 bg-teal-50/70 ring-1 ring-teal-700 shadow-2xs cursor-pointer'
+                          ? 'border-[#D6B36A] bg-[#FBF8EF] ring-1 ring-[#D6B36A] shadow-2xs cursor-pointer'
                           : selectedDoctor && !selectedDoctor.telehealthAvailable
-                          ? 'border-slate-100 bg-slate-50 opacity-50 cursor-not-allowed'
-                          : 'border-slate-200 bg-white hover:bg-slate-50 cursor-pointer'
+                          ? 'border-[#E7DFCE]/50 bg-[#FBF8EF]/50 opacity-50 cursor-not-allowed'
+                          : 'border-[#E7DFCE] bg-[#FFFDF8] hover:bg-[#FBF8EF] cursor-pointer'
                       }`}
                     >
-                      <div className="w-8 h-8 rounded-lg bg-teal-100/70 text-teal-800 flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-8 h-8 rounded-lg bg-[#F4E9C9] text-[#8E6D2B] flex items-center justify-center shrink-0 mt-0.5">
                         <Video className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="font-bold text-xs text-slate-900">Secure Telehealth Video</div>
-                        <div className="text-2xs text-slate-500 mt-0.5">
+                        <div className="font-bold text-xs text-[#202020]">Secure Telehealth Video</div>
+                        <div className="text-2xs text-[#77736A] mt-0.5">
                           Browser-based encrypted HD call demo
                         </div>
                       </div>
@@ -997,10 +993,10 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                 {/* Date Selection */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-xs font-semibold text-slate-800">
+                    <label className="text-xs font-semibold text-[#3A3833]">
                       Preferred Date *
                     </label>
-                    <span className="text-2xs text-teal-800 font-medium">Availability Flow Demo</span>
+                    <span className="text-2xs text-[#8E6D2B] font-medium">Availability Flow Demo</span>
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3">
@@ -1012,7 +1008,7 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                         setFormData({ ...formData, date: e.target.value });
                         if (errors.date) setErrors({ ...errors, date: undefined });
                       }}
-                      className="flex-1 min-h-[42px] px-3.5 py-2 rounded-xl border border-slate-300 text-xs text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-teal-700 font-medium cursor-pointer"
+                      className="flex-1 min-h-[42px] px-3.5 py-2 rounded-xl border border-[#E7DFCE] text-xs text-[#202020] bg-[#FFFDF8] focus:outline-none focus:ring-2 focus:ring-[#D6B36A] font-medium cursor-pointer"
                     />
 
                     {/* Quick Date Shortcuts */}
@@ -1030,7 +1026,7 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                             setFormData({ ...formData, date: d });
                             if (errors.date) setErrors({ ...errors, date: undefined });
                           }}
-                          className="px-2.5 py-2 text-2xs font-semibold rounded-lg bg-slate-100 hover:bg-teal-50 hover:text-teal-900 text-slate-700 transition-colors cursor-pointer"
+                          className="px-2.5 py-2 text-2xs font-semibold rounded-lg bg-[#FBF8EF] hover:bg-[#F4E9C9] hover:text-[#202020] text-[#3A3833] border border-[#E7DFCE] transition-colors cursor-pointer"
                         >
                           {item.label}
                         </button>
@@ -1045,10 +1041,10 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                 {/* Time Slot Selection */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-xs font-semibold text-slate-800">
+                    <label className="text-xs font-semibold text-[#3A3833]">
                       Preferred Time Slot *
                     </label>
-                    <span className="text-2xs text-slate-500">Interactive Schedule Demo</span>
+                    <span className="text-2xs text-[#77736A]">Interactive Schedule Demo</span>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -1064,11 +1060,11 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                           }}
                           className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                             isSelected
-                              ? 'border-teal-700 bg-teal-700 text-white shadow-2xs font-bold'
-                              : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
+                              ? 'border-[#D6B36A] bg-[#D6B36A] text-[#F1F3F5] shadow-2xs font-bold'
+                              : 'border-[#E7DFCE] bg-[#FFFDF8] text-[#3A3833] hover:bg-[#FBF8EF] hover:border-[#D6B36A]/60'
                           }`}
                         >
-                          <Clock className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-slate-400'}`} />
+                          <Clock className={`w-3.5 h-3.5 ${isSelected ? 'text-[#F1F3F5]' : 'text-[#AEB4BB]'}`} />
                           <span>{slot}</span>
                         </button>
                       );
@@ -1082,9 +1078,9 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
               </div>
 
               {/* Navigation Actions */}
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+              <div className="pt-4 border-t border-[#E7DFCE] flex items-center justify-between">
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="md"
                   onClick={() => setCurrentStep(1)}
                   leftIcon={<ArrowLeft className="w-4 h-4" />}
@@ -1111,12 +1107,12 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
           {currentStep === 3 && (
             <div className="space-y-6 animate-in fade-in duration-200">
               
-              <div className="border-b border-slate-100 pb-4">
-                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-teal-700" />
+              <div className="border-b border-[#E7DFCE] pb-4">
+                <h2 className="text-lg font-bold text-[#202020] flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-[#D6B36A]" />
                   <span>03. Review Appointment & Confirm Request</span>
                 </h2>
-                <p className="text-xs text-slate-600 mt-1">
+                <p className="text-xs text-[#77736A] mt-1">
                   Please review the patient details and appointment schedule before submitting your demo request.
                 </p>
               </div>
@@ -1125,16 +1121,16 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 
                 {/* Patient Details Card */}
-                <div className="bg-slate-50/70 rounded-xl p-4 border border-slate-200/80 space-y-3 text-xs">
-                  <div className="flex items-center justify-between border-b border-slate-200/60 pb-2">
-                    <span className="font-bold text-slate-900 flex items-center gap-1.5">
-                      <User className="w-4 h-4 text-teal-700" />
+                <div className="bg-[#FBF8EF] rounded-xl p-4 border border-[#E7DFCE] space-y-3 text-xs">
+                  <div className="flex items-center justify-between border-b border-[#E7DFCE] pb-2">
+                    <span className="font-bold text-[#202020] flex items-center gap-1.5">
+                      <User className="w-4 h-4 text-[#D6B36A]" />
                       <span>Patient Information</span>
                     </span>
                     <button
                       type="button"
                       onClick={() => setCurrentStep(1)}
-                      className="text-2xs font-semibold text-teal-800 hover:text-teal-950 flex items-center gap-1 cursor-pointer"
+                      className="text-2xs font-semibold text-[#8E6D2B] hover:text-[#202020] flex items-center gap-1 cursor-pointer"
                     >
                       <Edit3 className="w-3 h-3" />
                       <span>Edit</span>
@@ -1143,40 +1139,40 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
 
                   <div className="space-y-1.5">
                     <div>
-                      <span className="text-slate-500 block text-2xs">Patient Name</span>
-                      <strong className="text-slate-900 font-semibold">{formData.fullName}</strong>
+                      <span className="text-[#77736A] block text-2xs">Patient Name</span>
+                      <strong className="text-[#202020] font-semibold">{formData.fullName}</strong>
                     </div>
                     <div>
-                      <span className="text-slate-500 block text-2xs">Email & Phone</span>
-                      <span className="text-slate-800 truncate block">{formData.email}</span>
-                      <span className="text-slate-800">{formData.phone}</span>
+                      <span className="text-[#77736A] block text-2xs">Email & Phone</span>
+                      <span className="text-[#3A3833] truncate block">{formData.email}</span>
+                      <span className="text-[#3A3833]">{formData.phone}</span>
                     </div>
                     <div>
-                      <span className="text-slate-500 block text-2xs">Reason for Visit</span>
-                      <p className="text-slate-700 italic bg-white p-2 rounded border border-slate-100 text-xs">
+                      <span className="text-[#77736A] block text-2xs">Reason for Visit</span>
+                      <p className="text-[#3A3833] italic bg-[#FFFDF8] p-2 rounded border border-[#E7DFCE] text-xs">
                         "{formData.reasonForVisit}"
                       </p>
                     </div>
                     {formData.notes && (
                       <div>
-                        <span className="text-slate-500 block text-2xs">Clinical Notes</span>
-                        <p className="text-slate-600 text-2xs">{formData.notes}</p>
+                        <span className="text-[#77736A] block text-2xs">Clinical Notes</span>
+                        <p className="text-[#77736A] text-2xs">{formData.notes}</p>
                       </div>
                     )}
                   </div>
                 </div>
 
                 {/* Specialist & Schedule Card */}
-                <div className="bg-slate-50/70 rounded-xl p-4 border border-slate-200/80 space-y-3 text-xs">
-                  <div className="flex items-center justify-between border-b border-slate-200/60 pb-2">
-                    <span className="font-bold text-slate-900 flex items-center gap-1.5">
-                      <Calendar className="w-4 h-4 text-teal-700" />
+                <div className="bg-[#FBF8EF] rounded-xl p-4 border border-[#E7DFCE] space-y-3 text-xs">
+                  <div className="flex items-center justify-between border-b border-[#E7DFCE] pb-2">
+                    <span className="font-bold text-[#202020] flex items-center gap-1.5">
+                      <Calendar className="w-4 h-4 text-[#D6B36A]" />
                       <span>Specialist & Slot</span>
                     </span>
                     <button
                       type="button"
                       onClick={() => setCurrentStep(2)}
-                      className="text-2xs font-semibold text-teal-800 hover:text-teal-950 flex items-center gap-1 cursor-pointer"
+                      className="text-2xs font-semibold text-[#8E6D2B] hover:text-[#202020] flex items-center gap-1 cursor-pointer"
                     >
                       <Edit3 className="w-3 h-3" />
                       <span>Edit</span>
@@ -1188,37 +1184,37 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                       src={selectedDoctor?.image}
                       alt={selectedDoctor?.name}
                       referrerPolicy="no-referrer"
-                      className="w-12 h-12 rounded-lg object-cover border border-slate-100 shrink-0"
+                      className="w-12 h-12 rounded-lg object-cover border border-[#E7DFCE] shrink-0"
                     />
                     <div className="min-w-0">
-                      <h4 className="font-bold text-slate-900">{selectedDoctor?.name}</h4>
-                      <p className="text-2xs text-slate-600">{formData.specialty}</p>
-                      <p className="text-2xs text-teal-800 font-semibold mt-0.5">
+                      <h4 className="font-bold text-[#202020]">{selectedDoctor?.name}</h4>
+                      <p className="text-2xs text-[#77736A]">{formData.specialty}</p>
+                      <p className="text-2xs text-[#8E6D2B] font-semibold mt-0.5">
                         Consultation fee: ${selectedDoctor?.consultationFee} (Demo preview)
                       </p>
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-slate-200/60 space-y-1.5">
+                  <div className="pt-2 border-t border-[#E7DFCE] space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-500">Date:</span>
-                      <strong className="text-slate-900">{formData.date}</strong>
+                      <span className="text-[#77736A]">Date:</span>
+                      <strong className="text-[#202020]">{formData.date}</strong>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-500">Time Slot:</span>
-                      <strong className="text-slate-900">{formData.timeSlot}</strong>
+                      <span className="text-[#77736A]">Time Slot:</span>
+                      <strong className="text-[#202020]">{formData.timeSlot}</strong>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-500">Format:</span>
-                      <span className="font-semibold text-teal-900 flex items-center gap-1">
+                      <span className="text-[#77736A]">Format:</span>
+                      <span className="font-semibold text-[#3A3833] flex items-center gap-1">
                         {formData.consultationType === 'in-clinic' ? (
                           <>
-                            <Building className="w-3 h-3 text-teal-700" />
+                            <Building className="w-3 h-3 text-[#D6B36A]" />
                             <span>In-Clinic Visit</span>
                           </>
                         ) : (
                           <>
-                            <Video className="w-3 h-3 text-teal-700" />
+                            <Video className="w-3 h-3 text-[#D6B36A]" />
                             <span>Telehealth Video</span>
                           </>
                         )}
@@ -1230,18 +1226,18 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
               </div>
 
               {/* Terms & Prototype Honesty Notice */}
-              <div className="p-4 bg-teal-50/50 rounded-xl border border-teal-100 text-xs text-slate-700 space-y-2">
+              <div className="p-4 bg-[#FBF8EF] rounded-xl border border-[#E7DFCE] text-xs text-[#3A3833] space-y-2">
                 <div className="flex items-start gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-teal-700 shrink-0 mt-0.5" />
+                  <ShieldCheck className="w-4 h-4 text-[#D6B36A] shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-slate-900 block font-bold">CareNova Prototype Confirmation:</strong>
-                    <p className="text-slate-600 leading-relaxed text-2xs mt-0.5">
+                    <strong className="text-[#202020] block font-bold">CareNova Prototype Confirmation:</strong>
+                    <p className="text-[#77736A] leading-relaxed text-2xs mt-0.5">
                       This is a portfolio prototype demonstration. No actual clinic appointment will be registered, and no real medical services or payment transactions will occur. Submitting simulates transactional processing and generates a unique reference ID.
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-teal-100/80 flex items-center gap-2">
+                <div className="pt-2 border-t border-[#E7DFCE] flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="agreeTerms"
@@ -1250,9 +1246,9 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                       setFormData({ ...formData, agreeToTerms: e.target.checked });
                       if (errors.agreeToTerms) setErrors({ ...errors, agreeToTerms: undefined });
                     }}
-                    className="w-4 h-4 rounded text-teal-700 focus:ring-teal-700 cursor-pointer"
+                    className="w-4 h-4 rounded text-[#D6B36A] focus:ring-[#D6B36A] cursor-pointer"
                   />
-                  <label htmlFor="agreeTerms" className="text-2xs text-slate-800 font-medium cursor-pointer">
+                  <label htmlFor="agreeTerms" className="text-2xs text-[#3A3833] font-medium cursor-pointer">
                     I acknowledge this is a fictional portfolio prototype and agree to simulated appointment terms. *
                   </label>
                 </div>
@@ -1262,25 +1258,25 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
               </div>
 
               {/* Reviewer / Evaluator Demo Controls (Error simulation test) */}
-              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/60 flex items-center justify-between text-2xs text-slate-600">
-                <span className="font-medium text-slate-700">
+              <div className="p-3 bg-[#FBF8EF] rounded-xl border border-[#E7DFCE] flex items-center justify-between text-2xs text-[#77736A]">
+                <span className="font-medium text-[#3A3833]">
                   UX Evaluator Tool: Test simulated server error state
                 </span>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-800">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-[#202020]">
                   <input
                     type="checkbox"
                     checked={simulateError}
                     onChange={(e) => setSimulateError(e.target.checked)}
-                    className="w-3.5 h-3.5 rounded text-amber-600 focus:ring-amber-600"
+                    className="w-3.5 h-3.5 rounded text-[#D6B36A] focus:ring-[#D6B36A]"
                   />
                   <span>Simulate API Error</span>
                 </label>
               </div>
 
               {/* Navigation Actions */}
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+              <div className="pt-4 border-t border-[#E7DFCE] flex items-center justify-between">
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="md"
                   onClick={() => setCurrentStep(2)}
                   leftIcon={<ArrowLeft className="w-4 h-4" />}
@@ -1294,7 +1290,6 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
                   size="lg"
                   isLoading={isSubmitting}
                   onClick={handleFinalSubmit}
-                  className="bg-teal-700 hover:bg-teal-800 text-white font-bold shadow-xs"
                 >
                   Confirm & Request Appointment
                 </Button>
@@ -1307,11 +1302,11 @@ export const AppointmentPage: React.FC<AppointmentPageProps> = ({
       )}
 
       {/* Emergency Service Safety Notice Footer */}
-      <div className="mt-8 p-4 rounded-xl bg-slate-100/80 border border-slate-200 text-xs text-slate-600 flex items-center justify-between gap-3">
+      <div className="mt-8 p-4 rounded-xl bg-[#FBF8EF] border border-[#E7DFCE] text-xs text-[#77736A] flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-slate-500 shrink-0" />
+          <AlertCircle className="w-4 h-4 text-[#D6B36A] shrink-0" />
           <span>
-            CareNova is a portfolio prototype. If experiencing a life-threatening medical emergency, immediately contact <strong>your local emergency services</strong>.
+            CareNova is a portfolio prototype. If experiencing a life-threatening medical emergency, immediately contact <strong className="text-[#202020]">your local emergency services</strong>.
           </span>
         </div>
       </div>

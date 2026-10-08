@@ -142,16 +142,16 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           title="Total Appointments"
           value={stats.totalAppointments}
           subtitle="All database bookings"
-          icon={<CalendarCheck2 className="w-5 h-5 text-teal-700" />}
-          iconBgColor="bg-teal-50"
+          icon={<CalendarCheck2 className="w-5 h-5 text-[#8E6D2B]" />}
+          iconBgColor="bg-[#F4E9C9]"
           onClick={() => onNavigate('admin-appointments')}
         />
         <StatCard
           title="Pending Review"
           value={stats.pendingAppointments}
           subtitle="Awaiting clinical triage"
-          icon={<Clock className="w-5 h-5 text-amber-700" />}
-          iconBgColor="bg-amber-50"
+          icon={<Clock className="w-5 h-5 text-[#8E6D2B]" />}
+          iconBgColor="bg-[#FBF8EF]"
           trendText={stats.pendingAppointments > 0 ? `${stats.pendingAppointments} pending` : 'All clear'}
           trendType={stats.pendingAppointments > 0 ? 'attention' : 'positive'}
           onClick={() => onNavigate('admin-appointments')}
@@ -160,16 +160,16 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           title="Confirmed"
           value={stats.confirmedAppointments}
           subtitle="Scheduled visits"
-          icon={<CheckCircle2 className="w-5 h-5 text-emerald-700" />}
-          iconBgColor="bg-emerald-50"
+          icon={<CheckCircle2 className="w-5 h-5 text-[#8E6D2B]" />}
+          iconBgColor="bg-[#F4E9C9]"
           onClick={() => onNavigate('admin-appointments')}
         />
         <StatCard
           title="Completed"
           value={stats.completedAppointments}
           subtitle="Concluded consultations"
-          icon={<CheckCheck className="w-5 h-5 text-teal-700" />}
-          iconBgColor="bg-teal-50"
+          icon={<CheckCheck className="w-5 h-5 text-[#2E7D52]" />}
+          iconBgColor="bg-[#2E7D52]/10"
           onClick={() => onNavigate('admin-appointments')}
         />
         <StatCard
@@ -214,7 +214,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
             </div>
             <button
               onClick={() => onNavigate('admin-appointments')}
-              className="inline-flex items-center gap-1 text-xs font-bold text-teal-700 hover:text-teal-900 hover:underline cursor-pointer"
+              className="inline-flex items-center gap-1 text-xs font-bold text-[#8E6D2B] hover:text-[#202020] hover:underline cursor-pointer"
             >
               <span>View All</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -223,17 +223,17 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
 
           <div className="overflow-x-auto flex-1">
             {isLoading ? (
-              <div className="p-12 text-center text-xs text-slate-400">
+              <div className="p-12 text-center text-xs text-[#77736A]">
                 Loading appointments from database...
               </div>
             ) : recentAppointments.length === 0 ? (
-              <div className="p-12 text-center text-xs text-slate-400">
+              <div className="p-12 text-center text-xs text-[#77736A]">
                 No appointment submissions recorded yet.
               </div>
             ) : (
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-slate-50/70 border-b border-slate-100 text-2xs font-bold text-slate-500 uppercase tracking-wider">
+                  <tr className="bg-[#FBF8EF] border-b border-[#E7DFCE] text-2xs font-bold text-[#77736A] uppercase tracking-wider">
                     <th className="py-3 px-4">Patient</th>
                     <th className="py-3 px-4">Specialty & Doctor</th>
                     <th className="py-3 px-4">Date & Slot</th>
@@ -242,31 +242,31 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                     <th className="py-3 px-4 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-[#E7DFCE]">
                   {recentAppointments.map((apt) => (
                     <tr
                       key={apt.id}
-                      className="hover:bg-slate-50/60 transition-colors"
+                      className="hover:bg-[#FBF8EF]/60 transition-colors"
                     >
-                      <td className="py-3 px-4 font-semibold text-slate-900">
+                      <td className="py-3 px-4 font-semibold text-[#202020]">
                         <div>{apt.patient_name}</div>
-                        <div className="text-2xs font-normal text-slate-400">{apt.email}</div>
+                        <div className="text-2xs font-normal text-[#77736A]">{apt.email}</div>
                       </td>
-                      <td className="py-3 px-4 text-slate-700">
-                        <div className="font-medium text-slate-900">{apt.specialty}</div>
-                        <div className="text-2xs text-slate-500">
+                      <td className="py-3 px-4 text-[#3A3833]">
+                        <div className="font-medium text-[#202020]">{apt.specialty}</div>
+                        <div className="text-2xs text-[#77736A]">
                           {apt.doctor_name || 'Assigned Specialist'}
                         </div>
                       </td>
-                      <td className="py-3 px-4 text-slate-700 whitespace-nowrap">
+                      <td className="py-3 px-4 text-[#3A3833] whitespace-nowrap">
                         <div className="font-medium">{apt.appointment_date}</div>
-                        <div className="text-2xs text-slate-500">{apt.appointment_time}</div>
+                        <div className="text-2xs text-[#77736A]">{apt.appointment_time}</div>
                       </td>
                       <td className="py-3 px-4 capitalize">
                         <span className={`inline-block px-2 py-0.5 rounded text-2xs font-medium ${
                           apt.consultation_type === 'telehealth'
-                            ? 'bg-blue-50 text-blue-700'
-                            : 'bg-slate-100 text-slate-700'
+                            ? 'bg-[#F4E9C9] text-[#8E6D2B]'
+                            : 'bg-[#FBF8EF] text-[#3A3833]'
                         }`}>
                           {apt.consultation_type}
                         </span>
@@ -277,7 +277,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                       <td className="py-3 px-4 text-right">
                         <button
                           onClick={() => setSelectedAppointment(apt)}
-                          className="p-1.5 text-slate-500 hover:text-teal-700 hover:bg-teal-50 rounded-lg transition-colors cursor-pointer"
+                          className="p-1.5 text-[#77736A] hover:text-[#8E6D2B] hover:bg-[#F4E9C9]/50 rounded-lg transition-colors cursor-pointer"
                           title="View appointment details"
                         >
                           <Eye className="w-4 h-4" />
@@ -292,19 +292,19 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
         </div>
 
         {/* Right 1 Col: Recent Contact Messages */}
-        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
-          <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div className="bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] shadow-xs overflow-hidden flex flex-col">
+          <div className="p-5 border-b border-[#E7DFCE] flex items-center justify-between">
             <div>
-              <h2 className="text-base font-bold text-slate-900">
+              <h2 className="text-base font-bold text-[#202020]">
                 Patient Inquiries
               </h2>
-              <p className="text-2xs text-slate-500">
+              <p className="text-2xs text-[#77736A]">
                 Direct contact form messages
               </p>
             </div>
             <button
               onClick={() => onNavigate('admin-messages')}
-              className="inline-flex items-center gap-1 text-xs font-bold text-teal-700 hover:text-teal-900 hover:underline cursor-pointer"
+              className="inline-flex items-center gap-1 text-xs font-bold text-[#8E6D2B] hover:text-[#202020] hover:underline cursor-pointer"
             >
               <span>View All</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -313,22 +313,22 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
 
           <div className="p-4 space-y-3 flex-1 overflow-y-auto">
             {recentMessages.length === 0 ? (
-              <p className="text-xs text-slate-400 text-center py-8">No messages recorded.</p>
+              <p className="text-xs text-[#77736A] text-center py-8">No messages recorded.</p>
             ) : (
               recentMessages.map((msg) => (
                 <div
                   key={msg.id}
                   onClick={() => onNavigate('admin-messages')}
-                  className="p-3.5 rounded-xl border border-slate-100 hover:border-teal-200 hover:bg-teal-50/30 transition-all cursor-pointer group"
+                  className="p-3.5 rounded-xl border border-[#E7DFCE] hover:border-[#D6B36A]/60 hover:bg-[#FBF8EF] transition-all cursor-pointer group"
                 >
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="font-bold text-xs text-slate-900 group-hover:text-teal-900 truncate">
+                    <span className="font-bold text-xs text-[#202020] group-hover:text-[#8E6D2B] truncate">
                       {msg.name}
                     </span>
                     <StatusBadge status={msg.status || 'unread'} size="sm" />
                   </div>
-                  <p className="text-2xs text-slate-500 truncate mb-1.5">{msg.email}</p>
-                  <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                  <p className="text-2xs text-[#77736A] truncate mb-1.5">{msg.email}</p>
+                  <p className="text-xs text-[#3A3833] line-clamp-2 leading-relaxed">
                     "{msg.message}"
                   </p>
                 </div>
@@ -336,10 +336,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
             )}
           </div>
 
-          <div className="p-4 border-t border-slate-100 bg-slate-50/50">
+          <div className="p-4 border-t border-[#E7DFCE] bg-[#FBF8EF]/60">
             <button
               onClick={() => onNavigate('admin-messages')}
-              className="w-full py-2 px-3 text-xs font-bold text-slate-700 hover:text-teal-800 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 transition-colors text-center cursor-pointer"
+              className="w-full py-2 px-3 text-xs font-bold text-[#3A3833] hover:text-[#202020] bg-[#FFFDF8] hover:bg-[#FBF8EF] rounded-xl border border-[#E7DFCE] transition-colors text-center cursor-pointer"
             >
               Manage All Messages ({stats.totalMessages})
             </button>
@@ -433,7 +433,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                   type="button"
                   disabled={isUpdatingStatus || selectedAppointment.status === 'confirmed'}
                   onClick={() => handleStatusChange('confirmed')}
-                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white disabled:opacity-50 transition-colors flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-[#D6B36A] hover:bg-[#C59E52] text-[#F1F3F5] disabled:opacity-50 transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
                 >
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>Confirm Booking</span>

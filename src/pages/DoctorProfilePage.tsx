@@ -65,7 +65,7 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
       <div className="mb-6">
         <button
           onClick={() => onNavigate('doctors')}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#8E6D2B] hover:text-[#202020] transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Doctor Directory</span>
@@ -78,11 +78,11 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
         <div className="lg:col-span-8 space-y-8">
           
           {/* Header Card */}
-          <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
+          <div className="bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] p-6 sm:p-8 shadow-2xs">
             <div className="flex flex-col sm:flex-row items-start gap-6">
               
               {/* Doctor Headshot */}
-              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200 shadow-xs relative">
+              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden bg-[#FBF8EF] shrink-0 border border-[#E7DFCE] shadow-xs relative">
                 {!imageError ? (
                   <img
                     src={doctor.image}
@@ -92,48 +92,48 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
                     className="w-full h-full object-cover object-center"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-teal-50 text-teal-800 font-bold text-2xl">
+                  <div className="w-full h-full flex items-center justify-center bg-[#F4E9C9] text-[#5E4A1E] font-bold text-2xl">
                     {doctor.name.split(' ').map(n => n[0]).join('')}
                   </div>
                 )}
-                <div className="absolute top-2 left-2 bg-emerald-600 text-white p-1 rounded-md shadow-xs" title="Verified Specialist">
+                <div className="absolute top-2 left-2 bg-[#2E7D52] text-white p-1 rounded-md shadow-xs" title="Verified Specialist">
                   <ShieldCheck className="w-3.5 h-3.5" />
                 </div>
               </div>
 
               {/* Title & Core Details */}
               <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2 text-xs text-slate-600 mb-1">
-                  <span className="font-bold text-teal-800">{doctor.specialty}</span>
+                <div className="flex items-center gap-2 text-xs text-[#77736A] mb-1">
+                  <span className="font-bold text-[#8E6D2B]">{doctor.specialty}</span>
                   <span aria-hidden="true">·</span>
                   <span>{doctor.experienceYears} Years Clinical Experience</span>
                 </div>
 
-                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
+                <h1 className="text-2xl sm:text-3xl font-bold text-[#202020] tracking-tight leading-tight">
                   {doctor.name}
                 </h1>
 
-                <p className="text-sm text-slate-600 mt-1 font-normal">
+                <p className="text-sm text-[#77736A] mt-1 font-normal">
                   {doctor.title}
                 </p>
 
                 {/* Rating & Consultations */}
-                <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-slate-600">
-                  <div className="flex items-center gap-1 text-amber-500 font-semibold tabular-nums">
-                    <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-[#77736A]">
+                  <div className="flex items-center gap-1 text-[#D6B36A] font-semibold tabular-nums">
+                    <Star className="w-4 h-4 fill-[#D6B36A] text-[#D6B36A]" />
                     <span>{doctor.rating}</span>
-                    <span className="text-slate-500 font-normal">({doctor.reviewCount} verified reviews)</span>
+                    <span className="text-[#AEB4BB] font-normal">({doctor.reviewCount} verified reviews)</span>
                   </div>
-                  <span className="text-slate-300">|</span>
-                  <div className="flex items-center gap-1 text-slate-700">
-                    <Globe className="w-3.5 h-3.5 text-slate-500" />
+                  <span className="text-[#E7DFCE]">|</span>
+                  <div className="flex items-center gap-1 text-[#3A3833]">
+                    <Globe className="w-3.5 h-3.5 text-[#AEB4BB]" />
                     <span>{doctor.languages.join(', ')}</span>
                   </div>
                 </div>
 
                 {/* Location indicator */}
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2 text-xs text-slate-600">
-                  <MapPin className="w-3.5 h-3.5 text-teal-700 shrink-0" />
+                <div className="mt-4 pt-3 border-t border-[#E7DFCE]/70 flex items-center gap-2 text-xs text-[#77736A]">
+                  <MapPin className="w-3.5 h-3.5 text-[#D6B36A] shrink-0" />
                   <span>{doctor.location}</span>
                 </div>
               </div>
@@ -142,24 +142,24 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
           </div>
 
           {/* About / Bio */}
-          <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-8 shadow-xs space-y-4">
-            <h2 className="text-lg font-bold text-slate-900">
+          <div className="bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] p-6 sm:p-8 shadow-2xs space-y-4">
+            <h2 className="text-lg font-bold text-[#202020]">
               About {doctor.name}
             </h2>
-            <p className="text-sm text-slate-700 leading-relaxed">
+            <p className="text-sm text-[#3A3833] leading-relaxed">
               {doctor.bio}
             </p>
           </div>
 
           {/* Areas of Clinical Expertise */}
-          <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-8 shadow-xs space-y-4">
-            <h2 className="text-lg font-bold text-slate-900">
+          <div className="bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] p-6 sm:p-8 shadow-2xs space-y-4">
+            <h2 className="text-lg font-bold text-[#202020]">
               Areas of Clinical Focus & Procedures
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {doctor.areasOfExpertise.map((item, idx) => (
-                <div key={idx} className="flex items-start gap-2 text-sm text-slate-700 bg-slate-50/70 p-3 rounded-xl border border-slate-100">
-                  <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                <div key={idx} className="flex items-start gap-2 text-sm text-[#3A3833] bg-[#FBF8EF] p-3 rounded-xl border border-[#E7DFCE]">
+                  <CheckCircle2 className="w-4 h-4 text-[#D6B36A] shrink-0 mt-0.5" />
                   <span>{item}</span>
                 </div>
               ))}
@@ -167,31 +167,31 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
           </div>
 
           {/* Education & Board Certifications */}
-          <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-8 shadow-xs space-y-6">
+          <div className="bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] p-6 sm:p-8 shadow-2xs space-y-6">
             <div>
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-3">
-                <GraduationCap className="w-5 h-5 text-teal-600" />
+              <h2 className="text-lg font-bold text-[#202020] flex items-center gap-2 mb-3">
+                <GraduationCap className="w-5 h-5 text-[#D6B36A]" />
                 <span>Education & Medical Training</span>
               </h2>
-              <ul className="space-y-2 text-sm text-slate-600 pl-2">
+              <ul className="space-y-2 text-sm text-[#77736A] pl-2">
                 {doctor.education.map((edu, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mt-2 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D6B36A] mt-2 shrink-0" />
                     <span>{edu}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="pt-4 border-t border-slate-100">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-3">
-                <Award className="w-5 h-5 text-teal-600" />
+            <div className="pt-4 border-t border-[#E7DFCE]">
+              <h2 className="text-lg font-bold text-[#202020] flex items-center gap-2 mb-3">
+                <Award className="w-5 h-5 text-[#D6B36A]" />
                 <span>Board Certifications & Affiliations</span>
               </h2>
-              <ul className="space-y-2 text-sm text-slate-600 pl-2">
+              <ul className="space-y-2 text-sm text-[#77736A] pl-2">
                 {doctor.certifications.map((cert, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#AEB4BB] mt-2 shrink-0" />
                     <span>{cert}</span>
                   </li>
                 ))}
@@ -203,23 +203,23 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
 
         {/* Right / Booking & Schedule Card (Sticky on desktop) */}
         <div className="lg:col-span-4">
-          <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm sticky top-24 space-y-5">
+          <div className="bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] p-6 shadow-sm sticky top-24 space-y-5">
             
-            <div className="border-b border-slate-100 pb-3">
-              <div className="text-xs font-semibold uppercase tracking-wider text-teal-800 mb-1">
+            <div className="border-b border-[#E7DFCE] pb-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#8E6D2B] mb-1">
                 Direct Scheduling
               </div>
-              <h3 className="text-xl font-bold text-slate-900 tracking-tight leading-snug">
+              <h3 className="text-xl font-bold text-[#202020] tracking-tight leading-snug">
                 Select Date & Time
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Standard visit fee: <strong className="text-slate-900">${doctor.consultationFee}</strong>
+              <p className="text-xs text-[#77736A] mt-0.5">
+                Standard visit fee: <strong className="text-[#202020]">${doctor.consultationFee}</strong>
               </p>
             </div>
 
             {/* Consultation Format */}
             <div>
-              <label className="block text-xs font-semibold text-slate-800 mb-2">
+              <label className="block text-xs font-semibold text-[#3A3833] mb-2">
                 Consultation Type
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -228,15 +228,15 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
                   onClick={() => setSelectedFormat('in-clinic')}
                   className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                     selectedFormat === 'in-clinic'
-                      ? 'border-teal-700 bg-teal-50/70 text-teal-950 ring-1 ring-teal-700'
-                      : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                      ? 'border-[#D6B36A] bg-[#F4E9C9]/50 text-[#202020] ring-1 ring-[#D6B36A]'
+                      : 'border-[#E7DFCE] bg-[#FFFDF8] text-[#3A3833] hover:bg-[#FBF8EF]'
                   }`}
                 >
                   <div className="flex items-center gap-1.5 text-xs font-bold">
-                    <Building2 className="w-3.5 h-3.5 text-teal-700" />
+                    <Building2 className="w-3.5 h-3.5 text-[#D6B36A]" />
                     <span>In-Clinic</span>
                   </div>
-                  <div className="text-2xs text-slate-500 mt-0.5">At Medical Hub</div>
+                  <div className="text-2xs text-[#77736A] mt-0.5">At Medical Hub</div>
                 </button>
 
                 <button
@@ -245,15 +245,15 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
                   onClick={() => setSelectedFormat('telehealth')}
                   className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                     selectedFormat === 'telehealth'
-                      ? 'border-teal-700 bg-teal-50/70 text-teal-950 ring-1 ring-teal-700'
-                      : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                      ? 'border-[#D6B36A] bg-[#F4E9C9]/50 text-[#202020] ring-1 ring-[#D6B36A]'
+                      : 'border-[#E7DFCE] bg-[#FFFDF8] text-[#3A3833] hover:bg-[#FBF8EF]'
                   } ${!doctor.telehealthAvailable ? 'opacity-40 cursor-not-allowed' : ''}`}
                 >
                   <div className="flex items-center gap-1.5 text-xs font-bold">
-                    <Video className="w-3.5 h-3.5 text-teal-700" />
+                    <Video className="w-3.5 h-3.5 text-[#D6B36A]" />
                     <span>Telehealth</span>
                   </div>
-                  <div className="text-2xs text-slate-500 mt-0.5">HD Video Call</div>
+                  <div className="text-2xs text-[#77736A] mt-0.5">HD Video Call</div>
                 </button>
               </div>
             </div>
@@ -261,23 +261,23 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
             {/* Date Selection */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-semibold text-slate-800">
+                <label className="text-xs font-semibold text-[#3A3833]">
                   Select Date
                 </label>
-                <span className="text-2xs text-teal-800 font-medium">Interactive Schedule Demo</span>
+                <span className="text-2xs text-[#8E6D2B] font-medium">Interactive Schedule Demo</span>
               </div>
               <input
                 type="date"
                 min={todayStr}
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full min-h-[42px] px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-teal-700 font-medium cursor-pointer"
+                className="w-full min-h-[42px] px-3 py-2 rounded-xl border border-[#E7DFCE] text-xs text-[#202020] bg-[#FFFDF8] focus:outline-none focus:ring-2 focus:ring-[#D6B36A] font-medium cursor-pointer"
               />
             </div>
 
             {/* Time Slot Selection */}
             <div>
-              <label className="block text-xs font-semibold text-slate-800 mb-2">
+              <label className="block text-xs font-semibold text-[#3A3833] mb-2">
                 Available Time Slots
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-2">
@@ -290,8 +290,8 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
                       onClick={() => setSelectedTimeSlot(slot)}
                       className={`min-h-[38px] py-2 px-2.5 rounded-lg text-xs font-semibold border text-center transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-teal-700 text-white border-teal-700 shadow-2xs'
-                          : 'bg-white text-slate-800 border-slate-300 hover:bg-slate-50'
+                          ? 'bg-[#D6B36A] text-[#F1F3F5] border-[#C59E52]/60 shadow-2xs'
+                          : 'bg-[#FFFDF8] text-[#3A3833] border-[#E7DFCE] hover:bg-[#FBF8EF]'
                       }`}
                     >
                       {slot}
@@ -308,12 +308,12 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
                 size="lg"
                 leftIcon={<CalendarCheck2 className="w-4 h-4" />}
                 onClick={handleContinueBooking}
-                className="w-full justify-center shadow-xs bg-teal-700 hover:bg-teal-800 text-white font-bold"
+                className="w-full justify-center shadow-xs"
               >
                 Book Appointment ({selectedTimeSlot})
               </Button>
 
-              <div className="flex items-center justify-between text-2xs text-slate-500 pt-1">
+              <div className="flex items-center justify-between text-2xs text-[#AEB4BB] pt-1">
                 <span>Free cancellation demo</span>
                 <span>·</span>
                 <span>Simulated booking flow</span>
@@ -321,13 +321,13 @@ export const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({
             </div>
 
             {/* Doctor Location details */}
-            <div className="pt-3 border-t border-slate-100 space-y-1.5 text-2xs text-slate-600">
+            <div className="pt-3 border-t border-[#E7DFCE] space-y-1.5 text-2xs text-[#77736A]">
               <div className="flex items-center gap-1.5 font-medium">
-                <MapPin className="w-3.5 h-3.5 text-teal-700 shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-[#D6B36A] shrink-0" />
                 <span>{doctor.location}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                <Clock className="w-3.5 h-3.5 text-[#AEB4BB] shrink-0" />
                 <span>Next slot: {doctor.nextAvailable}</span>
               </div>
             </div>

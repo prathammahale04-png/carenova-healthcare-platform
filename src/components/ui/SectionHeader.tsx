@@ -24,17 +24,17 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
       } ${className}`}
     >
       {kicker && (
-        <p className="text-xs font-semibold uppercase tracking-wider text-teal-800 mb-2">
+        <p className="text-xs font-semibold uppercase tracking-wider text-[#8E6D2B] mb-2">
           {kicker}
         </p>
       )}
       <h2
-        className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 leading-[1.22]"
+        className="text-2xl sm:text-3xl font-bold tracking-tight text-[#202020] leading-[1.22]"
       >
         {title}
       </h2>
       {subtitle && (
-        <p className={`mt-3 text-sm sm:text-base text-slate-600 leading-relaxed font-normal max-w-2xl ${isCenter ? 'mx-auto' : ''}`}>
+        <p className={`mt-3 text-sm sm:text-base text-[#77736A] leading-relaxed font-normal max-w-2xl ${isCenter ? 'mx-auto' : ''}`}>
           {subtitle}
         </p>
       )}

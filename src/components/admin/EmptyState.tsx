@@ -17,17 +17,17 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   onAction
 }) => {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/90 p-8 sm:p-12 text-center max-w-md mx-auto shadow-2xs space-y-4">
-      <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-800 mx-auto">
+    <div className="bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] p-8 sm:p-12 text-center max-w-md mx-auto shadow-2xs space-y-4">
+      <div className="w-14 h-14 rounded-2xl bg-[#F4E9C9] border border-[#E7D19A] flex items-center justify-center text-[#8E6D2B] mx-auto">
         {icon}
       </div>
       <div>
-        <h3 className="text-base font-bold text-slate-900">{title}</h3>
-        <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{description}</p>
+        <h3 className="text-base font-bold text-[#202020]">{title}</h3>
+        <p className="text-xs text-[#77736A] mt-1.5 leading-relaxed">{description}</p>
       </div>
       {actionLabel && onAction && (
         <div className="pt-2">
-          <Button variant="outline" size="sm" onClick={onAction}>
+          <Button variant="secondary" size="sm" onClick={onAction}>
             {actionLabel}
           </Button>
         </div>

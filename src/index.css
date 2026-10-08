@@ -2,6 +2,19 @@
 
 @theme {
   --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --color-gold-primary: #D6B36A;
+  --color-gold-hover: #C59E52;
+  --color-gold-soft: #E7D19A;
+  --color-gold-pale: #F4E9C9;
+  --color-gold-ivory: #FBF8EF;
+  --color-warm-white: #FFFDF8;
+  --color-charcoal-deep: #202020;
+  --color-charcoal-secondary: #3A3833;
+  --color-charcoal-muted: #77736A;
+  --color-silver-light: #D9DDE2;
+  --color-silver-shiny: #F1F3F5;
+  --color-silver-dark: #AEB4BB;
+  --color-border-warm: #E7DFCE;
 }
 
 @layer base {
@@ -19,8 +32,8 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #f8fafc;
-    color: #0f172a;
+    background-color: #FFFDF8;
+    color: #3A3833;
     line-height: 1.6;
     letter-spacing: -0.011em;
   }
@@ -30,6 +43,7 @@
     font-family: var(--font-sans);
     letter-spacing: -0.025em;
     text-wrap: balance;
+    color: #202020;
   }
 
   p {
@@ -37,21 +51,50 @@
     letter-spacing: -0.006em;
   }
 
-  /* User-requested: Light golden button styling with text-slate-700 readability */
-  .button-primary,
-  .button-secondary,
-  a[class*='btn'] {
-    background-color: #fef3c7;
-    color: #334155;
-    border-color: #fcd34d;
+  /* CareNova Luxury Light Gold & Shiny Silver Button Styling */
+  .button-primary {
+    background-color: #D6B36A !important;
+    background-image: linear-gradient(180deg, #DFBE77 0%, #D6B36A 60%, #CA9F50 100%) !important;
+    color: #F1F3F5 !important;
+    border: 1px solid rgba(197, 158, 82, 0.6) !important;
+    box-shadow: 0 2px 6px -1px rgba(214, 179, 106, 0.3), 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+    text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.25);
   }
 
-  .button-primary:hover,
-  .button-secondary:hover,
-  a[class*='btn']:hover {
-    background-color: #fde68a;
-    color: #0f172a;
+  .button-primary:hover {
+    background-color: #C59E52 !important;
+    background-image: linear-gradient(180deg, #D4AC5C 0%, #C59E52 60%, #B68D3F 100%) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 14px -2px rgba(214, 179, 106, 0.45), 0 2px 4px 0 rgba(0, 0, 0, 0.08) !important;
   }
+
+  .button-secondary {
+    background-color: transparent !important;
+    color: #8E6D2B !important;
+    border: 1px solid #D6B36A !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03) !important;
+  }
+
+  .button-secondary:hover {
+    background-color: #FBF8EF !important;
+    border-color: #C59E52 !important;
+    color: #202020 !important;
+  }
+}
+
+/* Shiny Silver Text Utility */
+.text-shiny-silver {
+  color: #F1F3F5;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.22);
+}
+
+.silver-shimmer-text {
+  background: linear-gradient(180deg, #FFFFFF 0%, #E7EAED 45%, #BFC5CB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  font-weight: 600;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
 }
 
 /* Custom utility for smooth subtle transitions */
@@ -63,3 +106,4 @@
     scroll-behavior: auto !important;
   }
 }
+

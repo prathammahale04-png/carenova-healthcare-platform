@@ -22,19 +22,19 @@ export const Textarea: React.FC<TextareaProps> = ({
       {label && (
         <label
           htmlFor={textareaId}
-          className="block text-xs font-semibold text-slate-700 tracking-wide"
+          className="block text-xs font-semibold text-[#3A3833] tracking-wide"
         >
-          {label} {props.required && <span className="text-rose-500">*</span>}
+          {label} {props.required && <span className="text-[#C24141]">*</span>}
         </label>
       )}
-      <div className="relative rounded-lg shadow-xs">
+      <div className="relative rounded-xl shadow-2xs">
         <textarea
           id={textareaId}
           rows={rows}
-          className={`w-full rounded-lg border bg-white text-slate-900 text-sm p-3.5 transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 disabled:bg-slate-50 disabled:text-slate-500 ${
+          className={`w-full rounded-xl border bg-[#FFFDF8] text-[#202020] text-sm p-3.5 transition-colors placeholder:text-[#AEB4BB] focus:outline-none focus:ring-2 focus:ring-[#D6B36A] focus:border-[#D6B36A] disabled:bg-[#FBF8EF] disabled:text-[#AEB4BB] ${
             error
-              ? 'border-rose-400 focus:ring-rose-400 focus:border-rose-400 bg-rose-50/20'
-              : 'border-slate-300 hover:border-slate-400'
+              ? 'border-[#C24141] focus:ring-[#C24141] focus:border-[#C24141] bg-rose-50/20'
+              : 'border-[#E7DFCE] hover:border-[#D6B36A]/60'
           } ${className}`}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? `${textareaId}-error` : undefined}
@@ -42,12 +42,12 @@ export const Textarea: React.FC<TextareaProps> = ({
         />
       </div>
       {error && (
-        <p id={`${textareaId}-error`} className="text-xs text-rose-600 mt-1 font-medium">
+        <p id={`${textareaId}-error`} className="text-xs text-[#C24141] mt-1 font-medium">
           {error}
         </p>
       )}
       {!error && helperText && (
-        <p className="text-xs text-slate-500 mt-1">
+        <p className="text-xs text-[#77736A] mt-1">
           {helperText}
         </p>
       )}
