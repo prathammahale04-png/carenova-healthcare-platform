@@ -335,17 +335,17 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
     >
       {/* DIAGNOSTIC STATES PANEL (Supabase Connection & Query Verification) */}
       <div className="bg-slate-900 text-slate-100 rounded-2xl p-4 sm:p-5 border border-slate-800 shadow-md space-y-3 font-mono text-xs">
-        <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-          <div className="flex items-center gap-2 text-teal-400 font-bold">
-            <Terminal className="w-4 h-4 text-teal-400" />
+        <div className="flex items-center justify-between pb-2 border-b border-[#3A3833]">
+          <div className="flex items-center gap-2 text-[#D6B36A] font-bold">
+            <Terminal className="w-4 h-4 text-[#D6B36A]" />
             <span>Supabase Connection & Query Diagnostics</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-2xs text-slate-400">Timestamp: {diagnostic.timestamp}</span>
+            <span className="text-2xs text-[#AEB4BB]">Timestamp: {diagnostic.timestamp}</span>
             <button
               onClick={() => fetchAppointments(true)}
               disabled={isRefreshing}
-              className="px-2.5 py-1 bg-teal-800 hover:bg-teal-700 text-teal-100 rounded-lg text-2xs font-bold transition-colors cursor-pointer flex items-center gap-1"
+              className="px-2.5 py-1 bg-[#8E6D2B] hover:bg-[#D6B36A] text-[#F1F3F5] rounded-lg text-2xs font-bold transition-colors cursor-pointer flex items-center gap-1"
             >
               <RotateCw className={`w-3 h-3 ${isRefreshing ? 'animate-spin' : ''}`} />
               <span>Re-query Database</span>
@@ -405,7 +405,7 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
           {/* Diagnostic 4: Latest appointment patient_name */}
           <div className="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
             <span className="text-2xs text-slate-400 block mb-1">Latest appointment patient_name:</span>
-            <span className="font-bold text-teal-300 truncate block text-xs" title={diagnostic.latestPatientName}>
+            <span className="font-bold text-[#E7D19A] truncate block text-xs" title={diagnostic.latestPatientName}>
               {diagnostic.latestPatientName}
             </span>
             <span className="text-3xs text-slate-500 block mt-1">
@@ -417,7 +417,7 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
         {/* Verification banner: Zero mock data affirmation */}
         <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 bg-slate-950/40 rounded-xl border border-slate-800 text-2xs text-slate-300">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-teal-400" />
+            <ShieldCheck className="w-4 h-4 text-[#D6B36A]" />
             <span>
               <strong>Data Integrity Verification:</strong> Mock data fallbacks disabled. Table strictly renders real rows returned from <code>public.appointments</code>.
             </span>
@@ -425,7 +425,7 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
           <button
             type="button"
             onClick={() => setShowJsonDump(!showJsonDump)}
-            className="text-teal-400 hover:text-teal-300 underline flex items-center gap-1 cursor-pointer"
+            className="text-[#D6B36A] hover:text-[#E7D19A] underline flex items-center gap-1 cursor-pointer"
           >
             <Code2 className="w-3.5 h-3.5" />
             <span>{showJsonDump ? 'Hide Console JSON' : 'Inspect Response Object'}</span>
@@ -492,12 +492,12 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
               placeholder="Search by patient, email, phone, doctor_id, or reason..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all"
+              className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-[#FFFDF8] border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A] focus:border-transparent transition-all"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#77736A] hover:text-[#202020]"
               >
                 Clear
               </button>
@@ -506,11 +506,11 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
 
           {/* Consultation Type Filter */}
           <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-slate-400 hidden sm:block" />
+            <Filter className="w-4 h-4 text-[#77736A] hidden sm:block" />
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-600 cursor-pointer"
+              className="text-xs bg-[#FFFDF8] border border-[#E7DFCE] rounded-xl px-3 py-2 text-[#202020] focus:outline-none focus:ring-2 focus:ring-[#D6B36A] cursor-pointer"
             >
               <option value="all">All Consultation Types</option>
               <option value="in-clinic">In-Clinic Only</option>
@@ -520,7 +520,7 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
         </div>
 
         {/* Status Filter Tabs - Display ALL appointments initially */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pt-2 border-t border-slate-100 pb-1">
+        <div className="flex items-center gap-1.5 overflow-x-auto pt-2 border-t border-[#E7DFCE] pb-1">
           {[
             { id: 'all', label: 'All Records', count: counts.all },
             { id: 'pending', label: 'Pending', count: counts.pending },
@@ -535,16 +535,16 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
                 onClick={() => setStatusFilter(tab.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
                   isActive
-                    ? 'bg-teal-700 text-white shadow-2xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'bg-[#D6B36A] text-[#F1F3F5] shadow-2xs font-bold'
+                    : 'text-[#77736A] hover:text-[#202020] hover:bg-[#FBF8EF]'
                 }`}
               >
                 <span>{tab.label}</span>
                 <span
                   className={`text-2xs px-1.5 py-0.2 rounded-full font-bold ${
                     isActive
-                      ? 'bg-teal-900 text-teal-100'
-                      : 'bg-slate-200 text-slate-600'
+                      ? 'bg-[#8E6D2B] text-[#FFFDF8]'
+                      : 'bg-[#F4E9C9] text-[#8E6D2B]'
                   }`}
                 >
                   {tab.count}
@@ -556,11 +556,11 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
       </div>
 
       {/* Appointments Table with all 11 required database columns */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+      <div className="bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] shadow-xs overflow-hidden">
         {isLoading ? (
-          <div className="p-16 text-center text-slate-400 text-xs">
-            <RotateCw className="w-6 h-6 animate-spin mx-auto mb-2 text-teal-600" />
-            <p className="font-semibold text-slate-700">Executing SELECT on public.appointments...</p>
+          <div className="p-16 text-center text-[#77736A] text-xs">
+            <RotateCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#D6B36A]" />
+            <p className="font-semibold text-[#202020]">Executing SELECT on public.appointments...</p>
           </div>
         ) : filteredAppointments.length === 0 ? (
           <div className="p-16 text-center text-slate-500 text-xs space-y-3">
@@ -693,7 +693,7 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
                     <td className="py-3.5 px-3.5 text-right whitespace-nowrap">
                       <button
                         onClick={() => setSelectedAppointment(apt)}
-                        className="px-2.5 py-1 text-xs font-semibold text-teal-700 hover:text-white bg-teal-50 hover:bg-teal-700 rounded-lg transition-colors inline-flex items-center gap-1 cursor-pointer"
+                        className="px-2.5 py-1 text-xs font-semibold text-[#8E6D2B] hover:text-[#FFFDF8] bg-[#F4E9C9] hover:bg-[#D6B36A] rounded-lg transition-colors inline-flex items-center gap-1 cursor-pointer"
                       >
                         <Eye className="w-3.5 h-3.5" />
                         <span>Manage</span>
@@ -778,7 +778,7 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
                 <div className="flex justify-between items-center">
                   <span className="text-slate-500">Doctor Name:</span>
                   <span className="font-bold text-slate-900 flex items-center gap-1">
-                    <Stethoscope className="w-3.5 h-3.5 text-teal-600" />
+                    <Stethoscope className="w-3.5 h-3.5 text-[#D6B36A]" />
                     {selectedAppointment.doctor_name || 'CareNova Specialist'}
                   </span>
                 </div>
@@ -825,18 +825,18 @@ export const AdminAppointmentsPage: React.FC<AdminAppointmentsPageProps> = ({ on
                   type="button"
                   disabled={isUpdatingStatus || selectedAppointment.status === 'confirmed'}
                   onClick={() => handleStatusChange('confirmed')}
-                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white disabled:opacity-50 transition-colors flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-[#D6B36A] hover:bg-[#C59E52] text-[#F1F3F5] disabled:opacity-50 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
                 >
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Confirm Appointment</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#F1F3F5]" />
+                  <span className="text-[#F1F3F5]">Confirm Appointment</span>
                 </button>
                 <button
                   type="button"
                   disabled={isUpdatingStatus || selectedAppointment.status === 'completed'}
                   onClick={() => handleStatusChange('completed')}
-                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white disabled:opacity-50 transition-colors flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-[#F1F3F5] disabled:opacity-50 transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#F1F3F5]" />
                   <span>Mark as Completed</span>
                 </button>
                 <button

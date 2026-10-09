@@ -362,37 +362,37 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
       )}
 
       {/* Action Header */}
-      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs space-y-4">
+      <div className="bg-[#FFFDF8] rounded-2xl p-4 sm:p-5 border border-[#E7DFCE] shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#77736A]" />
             <input
               type="text"
               placeholder="Search specialists by name, specialty, bio..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all"
+              className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-white border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A] focus:border-transparent transition-all"
             />
           </div>
 
           <button
             type="button"
             onClick={handleOpenAdd}
-            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs sm:text-sm font-bold shadow-xs transition-colors cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#D6B36A] hover:bg-[#C59E52] text-[#F1F3F5] rounded-xl text-xs sm:text-sm font-bold shadow-xs transition-colors cursor-pointer"
           >
-            <Plus className="w-4 h-4" />
-            <span>Add Specialist Profile</span>
+            <Plus className="w-4 h-4 text-[#F1F3F5]" />
+            <span className="text-[#F1F3F5]">Add Specialist Profile</span>
           </button>
         </div>
 
         {/* Specialty Filter Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pt-2 border-t border-slate-100 pb-1">
+        <div className="flex items-center gap-1.5 overflow-x-auto pt-2 border-t border-[#E7DFCE] pb-1">
           <button
             onClick={() => setSelectedSpecialty('all')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
               selectedSpecialty === 'all'
-                ? 'bg-teal-700 text-white shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-[#D6B36A] text-[#F1F3F5] shadow-2xs font-bold'
+                : 'text-[#77736A] hover:text-[#202020] hover:bg-[#FBF8EF]'
             }`}
           >
             All Specialties ({doctors.length})
@@ -403,8 +403,8 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
               onClick={() => setSelectedSpecialty(spec)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 selectedSpecialty === spec
-                  ? 'bg-teal-700 text-white shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  ? 'bg-[#D6B36A] text-[#F1F3F5] shadow-2xs font-bold'
+                  : 'text-[#77736A] hover:text-[#202020] hover:bg-[#FBF8EF]'
               }`}
             >
               {spec}
@@ -415,8 +415,8 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
 
       {/* Doctors Grid */}
       {isLoading ? (
-        <div className="p-16 text-center text-slate-400 text-xs bg-white rounded-2xl border border-slate-200">
-          <RotateCw className="w-6 h-6 animate-spin mx-auto mb-2 text-teal-600" />
+        <div className="p-16 text-center text-[#77736A] text-xs bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE]">
+          <RotateCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#D6B36A]" />
           <p>Loading medical specialists from database...</p>
         </div>
       ) : fetchError ? (
@@ -460,30 +460,30 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
           {filteredDoctors.map(doctor => (
             <div
               key={doctor.id}
-              className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs hover:shadow-md hover:border-teal-200 transition-all flex flex-col justify-between"
+              className="bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] p-5 shadow-xs hover:shadow-md hover:border-[#D6B36A] transition-all flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-start gap-4">
                   <img
                     src={doctor.image}
                     alt={doctor.name}
-                    className="w-16 h-16 rounded-2xl object-cover border border-slate-100 shrink-0"
+                    className="w-16 h-16 rounded-2xl object-cover border border-[#E7DFCE] shrink-0"
                     onError={(e) => {
                       (e.target as HTMLElement).style.display = 'none';
                     }}
                   />
                   <div className="min-w-0 flex-1">
-                    <span className="inline-block text-2xs font-bold text-teal-800 bg-teal-50 border border-teal-100 px-2 py-0.5 rounded-md mb-1">
+                    <span className="inline-block text-2xs font-bold text-[#8E6D2B] bg-[#F4E9C9] border border-[#E7D19A] px-2 py-0.5 rounded-md mb-1">
                       {doctor.specialty}
                     </span>
-                    <h3 className="font-bold text-sm text-slate-900 truncate">
+                    <h3 className="font-bold text-sm text-[#202020] truncate">
                       {doctor.name}
                     </h3>
-                    <p className="text-2xs text-slate-500 line-clamp-1">{doctor.title}</p>
+                    <p className="text-2xs text-[#77736A] line-clamp-1">{doctor.title}</p>
 
-                    <div className="mt-2 flex items-center gap-2 text-2xs text-slate-600">
-                      <span className="flex items-center gap-0.5 font-bold text-amber-600">
-                        <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    <div className="mt-2 flex items-center gap-2 text-2xs text-[#77736A]">
+                      <span className="flex items-center gap-0.5 font-bold text-[#8E6D2B]">
+                        <Star className="w-3 h-3 fill-[#D6B36A] text-[#D6B36A]" />
                         {doctor.rating}
                       </span>
                       <span>·</span>
@@ -492,26 +492,26 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                   </div>
                 </div>
 
-                <p className="mt-3 text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                <p className="mt-3 text-xs text-[#3A3833] line-clamp-2 leading-relaxed">
                   {doctor.bio}
                 </p>
 
-                <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-2xs text-slate-500">
+                <div className="mt-3 pt-3 border-t border-[#E7DFCE] flex items-center justify-between text-2xs text-[#77736A]">
                   <div className="flex items-center gap-1 truncate">
-                    <Globe className="w-3 h-3 text-slate-400 shrink-0" />
+                    <Globe className="w-3 h-3 text-[#77736A] shrink-0" />
                     <span className="truncate">{doctor.languages?.join(', ') || 'English'}</span>
                   </div>
-                  <span className="font-bold text-teal-800 shrink-0">
+                  <span className="font-bold text-[#8E6D2B] shrink-0">
                     ${doctor.consultationFee} / visit
                   </span>
                 </div>
               </div>
 
               {/* Actions toolbar */}
-              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-[#E7DFCE] flex items-center justify-between">
                 <button
                   onClick={() => setSelectedDoctor(doctor)}
-                  className="p-1.5 text-slate-500 hover:text-teal-700 hover:bg-teal-50 rounded-lg transition-colors cursor-pointer"
+                  className="p-1.5 text-[#77736A] hover:text-[#8E6D2B] hover:bg-[#F4E9C9] rounded-lg transition-colors cursor-pointer"
                   title="View full profile"
                 >
                   <Eye className="w-4 h-4" />
@@ -520,7 +520,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                 <div className="flex items-center gap-1.5">
                   <button
                     onClick={() => handleOpenEdit(doctor)}
-                    className="px-2.5 py-1 text-xs font-semibold text-slate-700 hover:text-teal-900 bg-slate-100 hover:bg-teal-50 rounded-lg transition-colors inline-flex items-center gap-1 cursor-pointer"
+                    className="px-2.5 py-1 text-xs font-semibold text-[#202020] hover:text-[#8E6D2B] bg-[#FBF8EF] hover:bg-[#F4E9C9] border border-[#E7DFCE] rounded-lg transition-colors inline-flex items-center gap-1 cursor-pointer"
                   >
                     <Edit2 className="w-3.5 h-3.5" />
                     <span>Edit</span>
@@ -528,7 +528,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
 
                   <button
                     onClick={() => setDeletingDoctor(doctor)}
-                    className="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                    className="p-1 text-[#77736A] hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
                     title="Delete doctor"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -557,7 +557,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                 className="w-16 h-16 rounded-xl object-cover shrink-0"
               />
               <div>
-                <span className="text-2xs font-bold uppercase tracking-wider text-teal-700 bg-teal-100/60 px-2 py-0.5 rounded">
+                <span className="text-2xs font-bold uppercase tracking-wider text-[#8E6D2B] bg-[#F4E9C9] px-2 py-0.5 rounded">
                   {selectedDoctor.specialty}
                 </span>
                 <h4 className="font-bold text-sm text-slate-900 mt-1">{selectedDoctor.name}</h4>
@@ -567,7 +567,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                   <span>·</span>
                   <span>{selectedDoctor.experienceYears} Years Clinical Experience</span>
                   <span>·</span>
-                  <span className="font-bold text-teal-800">${selectedDoctor.consultationFee} / session</span>
+                  <span className="font-bold text-[#8E6D2B]">${selectedDoctor.consultationFee} / session</span>
                 </div>
               </div>
             </div>
@@ -587,7 +587,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                 <span>Languages: {selectedDoctor.languages?.join(', ') || 'English'}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Video className="w-4 h-4 text-teal-600" />
+                <Video className="w-4 h-4 text-[#D6B36A]" />
                 <span>{selectedDoctor.telehealthAvailable ? 'Telehealth Available' : 'Clinic Only'}</span>
               </div>
             </div>
@@ -613,7 +613,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                 placeholder="e.g. QA Demo Doctor"
                 value={formData.name}
                 onChange={e => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
               />
             </div>
 
@@ -623,7 +623,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                 <select
                   value={formData.specialty}
                   onChange={e => setFormData({ ...formData, specialty: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600 cursor-pointer"
+                  className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A] cursor-pointer"
                 >
                   <option value="General Medicine">General Medicine</option>
                   <option value="Cardiology">Cardiology</option>
@@ -641,7 +641,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                   max="50"
                   value={formData.experience_years}
                   onChange={e => setFormData({ ...formData, experience_years: Number(e.target.value) })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                  className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
                 />
               </div>
             </div>
@@ -656,7 +656,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                   max="5.0"
                   value={formData.rating}
                   onChange={e => setFormData({ ...formData, rating: Number(e.target.value) })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                  className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
                 />
               </div>
 
@@ -667,7 +667,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                   placeholder="e.g. English, Hindi"
                   value={formData.languages}
                   onChange={e => setFormData({ ...formData, languages: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                  className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
                 />
               </div>
             </div>
@@ -681,7 +681,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                   placeholder="https://... or /src/assets/images/... (leave empty for auto portrait)"
                   value={formData.image_url}
                   onChange={e => setFormData({ ...formData, image_url: e.target.value })}
-                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
                 />
               </div>
             </div>
@@ -693,7 +693,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                 placeholder="Doctor clinical background and bio..."
                 value={formData.bio}
                 onChange={e => setFormData({ ...formData, bio: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
               />
             </div>
 
@@ -708,7 +708,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
               <button
                 type="submit"
                 disabled={isSaving}
-                className="px-4 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 font-bold text-white shadow-xs transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-[#D6B36A] hover:bg-[#C59E52] font-bold text-[#F1F3F5] shadow-xs transition-colors cursor-pointer"
               >
                 {isSaving ? 'Saving...' : 'Add Specialist'}
               </button>
@@ -734,7 +734,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                 required
                 value={formData.name}
                 onChange={e => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
               />
             </div>
 
@@ -744,7 +744,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                 <select
                   value={formData.specialty}
                   onChange={e => setFormData({ ...formData, specialty: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600 cursor-pointer"
+                  className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A] cursor-pointer"
                 >
                   <option value="General Medicine">General Medicine</option>
                   <option value="Cardiology">Cardiology</option>
@@ -762,7 +762,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                   max="50"
                   value={formData.experience_years}
                   onChange={e => setFormData({ ...formData, experience_years: Number(e.target.value) })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                  className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
                 />
               </div>
             </div>
@@ -777,7 +777,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                   max="5.0"
                   value={formData.rating}
                   onChange={e => setFormData({ ...formData, rating: Number(e.target.value) })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                  className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
                 />
               </div>
 
@@ -787,7 +787,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                   type="text"
                   value={formData.languages}
                   onChange={e => setFormData({ ...formData, languages: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                  className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
                 />
               </div>
             </div>
@@ -801,7 +801,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                   placeholder="https://... or /src/assets/images/..."
                   value={formData.image_url}
                   onChange={e => setFormData({ ...formData, image_url: e.target.value })}
-                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
                 />
               </div>
             </div>
@@ -812,7 +812,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
                 rows={3}
                 value={formData.bio}
                 onChange={e => setFormData({ ...formData, bio: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                className="w-full px-3 py-2 bg-slate-50 border border-[#E7DFCE] rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D6B36A]"
               />
             </div>
 
@@ -827,7 +827,7 @@ export const AdminDoctorsPage: React.FC<AdminDoctorsPageProps> = ({ onNavigate }
               <button
                 type="submit"
                 disabled={isSaving}
-                className="px-4 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 font-bold text-white shadow-xs transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-[#D6B36A] hover:bg-[#C59E52] font-bold text-[#F1F3F5] shadow-xs transition-colors cursor-pointer"
               >
                 {isSaving ? 'Saving...' : 'Save Changes'}
               </button>
