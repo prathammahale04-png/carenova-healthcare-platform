@@ -176,24 +176,24 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           title="Active Doctors"
           value={stats.totalDoctors}
           subtitle="Specialists in directory"
-          icon={<Users2 className="w-5 h-5 text-blue-700" />}
-          iconBgColor="bg-blue-50"
+          icon={<Users2 className="w-5 h-5 text-[#8E6D2B]" />}
+          iconBgColor="bg-[#FBF8EF]"
           onClick={() => onNavigate('admin-doctors')}
         />
         <StatCard
           title="Clinical Services"
           value={stats.totalServices}
           subtitle="Departments catalog"
-          icon={<Stethoscope className="w-5 h-5 text-indigo-700" />}
-          iconBgColor="bg-indigo-50"
+          icon={<Stethoscope className="w-5 h-5 text-[#8E6D2B]" />}
+          iconBgColor="bg-[#F4E9C9]"
           onClick={() => onNavigate('admin-services')}
         />
         <StatCard
           title="Contact Messages"
           value={stats.totalMessages}
           subtitle="Inbound patient inquiries"
-          icon={<MessageSquare className="w-5 h-5 text-purple-700" />}
-          iconBgColor="bg-purple-50"
+          icon={<MessageSquare className="w-5 h-5 text-[#8E6D2B]" />}
+          iconBgColor="bg-[#FBF8EF]"
           onClick={() => onNavigate('admin-messages')}
         />
       </div>
@@ -202,13 +202,13 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Left 2 Cols: Recent Appointments */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
-          <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div className="lg:col-span-2 bg-[#FFFDF8] rounded-2xl border border-[#E7DFCE] shadow-xs overflow-hidden flex flex-col">
+          <div className="p-5 border-b border-[#E7DFCE] flex items-center justify-between">
             <div>
-              <h2 className="text-base font-bold text-slate-900">
+              <h2 className="text-base font-bold text-[#202020]">
                 Recent Appointment Bookings
               </h2>
-              <p className="text-2xs text-slate-500">
+              <p className="text-2xs text-[#77736A]">
                 Latest consultation bookings submitted through the web portal
               </p>
             </div>
@@ -357,36 +357,36 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
         >
           <div className="space-y-5 text-sm">
             {/* Status & Banner */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
-              <span className="text-xs font-medium text-slate-600">Current Status:</span>
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#FBF8EF] border border-[#E7DFCE]">
+              <span className="text-xs font-medium text-[#77736A]">Current Status:</span>
               <StatusBadge status={selectedAppointment.status} />
             </div>
 
             {/* Patient Information */}
             <div className="space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#77736A]">
                 Patient Contact Information
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50">
-                  <User className="w-4 h-4 text-slate-400" />
+                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[#FBF8EF] border border-[#E7DFCE]">
+                  <User className="w-4 h-4 text-[#77736A]" />
                   <div>
-                    <div className="text-2xs text-slate-400">Full Name</div>
-                    <div className="font-semibold text-slate-900">{selectedAppointment.patient_name}</div>
+                    <div className="text-2xs text-[#77736A]">Full Name</div>
+                    <div className="font-semibold text-[#202020]">{selectedAppointment.patient_name}</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50">
-                  <Mail className="w-4 h-4 text-slate-400" />
+                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[#FBF8EF] border border-[#E7DFCE]">
+                  <Mail className="w-4 h-4 text-[#77736A]" />
                   <div>
-                    <div className="text-2xs text-slate-400">Email Address</div>
-                    <div className="font-semibold text-slate-900 truncate">{selectedAppointment.email}</div>
+                    <div className="text-2xs text-[#77736A]">Email Address</div>
+                    <div className="font-semibold text-[#202020] truncate">{selectedAppointment.email}</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 sm:col-span-2">
-                  <Phone className="w-4 h-4 text-slate-400" />
+                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[#FBF8EF] border border-[#E7DFCE] sm:col-span-2">
+                  <Phone className="w-4 h-4 text-[#77736A]" />
                   <div>
-                    <div className="text-2xs text-slate-400">Phone Number</div>
-                    <div className="font-semibold text-slate-900">{selectedAppointment.phone}</div>
+                    <div className="text-2xs text-[#77736A]">Phone Number</div>
+                    <div className="font-semibold text-[#202020]">{selectedAppointment.phone}</div>
                   </div>
                 </div>
               </div>
@@ -394,29 +394,29 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
 
             {/* Appointment Consultation Details */}
             <div className="space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#77736A]">
                 Clinical Consultation Details
               </h4>
-              <div className="p-3.5 rounded-xl border border-slate-200 space-y-2 text-xs">
+              <div className="p-3.5 rounded-xl border border-[#E7DFCE] bg-[#FFFDF8] space-y-2 text-xs">
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Department / Specialty:</span>
-                  <span className="font-bold text-slate-900">{selectedAppointment.specialty}</span>
+                  <span className="text-[#77736A]">Department / Specialty:</span>
+                  <span className="font-bold text-[#202020]">{selectedAppointment.specialty}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Doctor:</span>
-                  <span className="font-medium text-slate-900">{selectedAppointment.doctor_name || 'CareNova Specialist'}</span>
+                  <span className="text-[#77736A]">Doctor:</span>
+                  <span className="font-medium text-[#202020]">{selectedAppointment.doctor_name || 'CareNova Specialist'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Schedule:</span>
-                  <span className="font-medium text-slate-900">{selectedAppointment.appointment_date} · {selectedAppointment.appointment_time}</span>
+                  <span className="text-[#77736A]">Schedule:</span>
+                  <span className="font-medium text-[#202020]">{selectedAppointment.appointment_date} · {selectedAppointment.appointment_time}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Mode:</span>
-                  <span className="capitalize font-medium text-slate-900">{selectedAppointment.consultation_type}</span>
+                  <span className="text-[#77736A]">Mode:</span>
+                  <span className="capitalize font-medium text-[#202020]">{selectedAppointment.consultation_type}</span>
                 </div>
-                <div className="pt-2 border-t border-slate-100">
-                  <span className="text-slate-500 block mb-1">Reason for Visit:</span>
-                  <p className="p-2.5 bg-slate-50 rounded-lg text-slate-800 leading-relaxed">
+                <div className="pt-2 border-t border-[#E7DFCE]">
+                  <span className="text-[#77736A] block mb-1">Reason for Visit:</span>
+                  <p className="p-2.5 bg-[#FBF8EF] rounded-lg text-[#3A3833] leading-relaxed">
                     {selectedAppointment.reason || 'Routine consultation.'}
                   </p>
                 </div>
@@ -424,8 +424,8 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
             </div>
 
             {/* Action Buttons to Change Status */}
-            <div className="pt-3 border-t border-slate-100 space-y-2">
-              <h4 className="text-xs font-bold text-slate-700">
+            <div className="pt-3 border-t border-[#E7DFCE] space-y-2">
+              <h4 className="text-xs font-bold text-[#202020]">
                 Update Appointment Status:
               </h4>
               <div className="flex flex-wrap gap-2">
